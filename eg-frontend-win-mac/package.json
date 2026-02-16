@@ -1,0 +1,128 @@
+{
+  "name": "elemental-genius-desktop",
+  "version": "1.0.0",
+  "description": "Elemental Genius Educational Platform Desktop Application",
+  "main": "public/electron.js",
+  "private": true,
+  "homepage": "./",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.1",
+    "react-router-dom": "^6.14.2",
+    "react-scripts": "5.0.1",
+    "styled-components": "^6.0.7",
+    "framer-motion": "^10.16.1",
+    "three": "^0.155.0",
+    "@react-three/fiber": "^8.13.5",
+    "@react-three/drei": "^9.80.0",
+    "socket.io-client": "^4.7.2",
+    "axios": "^1.4.0",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron-dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-pack": "electron-builder",
+    "preelectron-pack": "npm run build",
+    "build:win": "npm run build && electron-builder --win --publish=never",
+    "build:mac": "npm run build && electron-builder --mac --publish=never", 
+    "build:linux": "npm run build && electron-builder --linux --publish=never",
+    "build:all": "npm run build && electron-builder --win --mac --linux --publish=never",
+    "build:win-publish": "npm run build && electron-builder --win --publish=always",
+    "build:mac-publish": "npm run build && electron-builder --mac --publish=always",
+    "dist": "npm run build && electron-builder --publish=never",
+    "release": "npm run build && electron-builder --publish=always",
+    "dev": "npm run electron-dev"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "electron": "^25.4.0",
+    "electron-builder": "^24.6.3",
+    "electron-notarize": "^1.2.2",
+    "wait-on": "^7.0.1"
+  },
+  "build": {
+    "appId": "com.elementalgenius.desktop",
+    "productName": "Elemental Genius",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "build/**/*",
+      "public/electron.js",
+      "public/preload.js",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.education",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "public/icons/icon.icns"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "public/icons/icon.ico"
+    },
+    "linux": {
+      "category": "Education",
+      "target": [
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        },
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "public/icons/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

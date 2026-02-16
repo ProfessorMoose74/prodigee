@@ -1,0 +1,14 @@
+# /etc/systemd/system/elemental-genius.service
+[Unit]
+Description=Gunicorn instance to serve Elemental Genius
+After=network.target
+
+[Service]
+User=www-data # Or your dedicated service user
+Group=www-data
+WorkingDirectory=/srv/elemental-genius
+Environment="PATH=/srv/elemental-genius/venv/bin"
+ExecStart=/srv/elemental-genius/venv/bin/gunicorn --workers 3 --bind unix:elemental-genius.sock -m 007 wsgi:app
+
+[Install]
+WantedBy=multi-user.target

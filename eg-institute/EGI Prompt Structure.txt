@@ -1,0 +1,32 @@
+Build an accreditation-ready online STEM college platform with:
+
+CORE REQUIREMENTS:
+1. Adaptive pacing allowing students to progress at their own speed
+2. Bank-level security with encrypted personal data storage
+3. $99/month subscription management with Stripe
+4. Full compliance with DEAC/regional accreditation standards
+
+TECHNICAL SPECIFICATIONS:
+- Python/FastAPI backend on OpenSUSE Leap 16
+- AMD GPU support for compute-intensive STEM simulations
+- PostgreSQL with 7-year data retention
+- Zero-knowledge authentication
+- End-to-end encryption for all PII
+
+ACADEMIC FEATURES:
+- Self-paced courses with competency-based progression
+- Proctored exam system integration
+- Official transcript generation
+- GPA calculation and academic standing
+- Transfer credit evaluation
+- 120 credit hour bachelor's degree programs
+
+ACCREDITATION COMPLIANCE:
+- Learning outcome assessment tracking
+- Faculty interaction requirements
+- Academic integrity monitoring
+- Clock hour tracking for federal compliance
+- Student complaint process
+- Program effectiveness metrics
+
+The system must be designed to pass initial accreditation review within 18-24 months of launch.

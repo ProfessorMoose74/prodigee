@@ -1,0 +1,5 @@
+# .env
+SECRET_KEY='your-super-secret-key'
+JWT_SECRET_KEY='your-jwt-secret-key'
+DATABASE_URL='postgresql://user:password@db_host:5432/elemental_genius_db'
+OLLAMA_API_URL='http://your-ai-server-ip:11434'

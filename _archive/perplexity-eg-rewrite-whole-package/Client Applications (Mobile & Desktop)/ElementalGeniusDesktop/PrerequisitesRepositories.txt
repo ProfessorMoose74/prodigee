@@ -1,0 +1,2 @@
+npm install electron@latest react@latest react-dom@latest react-router-dom@latest @reduxjs/toolkit@latest react-redux@latest styled-components@latest framer-motion@latest three@latest @react-three/fiber@latest @react-three/drei@latest axios@latest socket.io-client@latest
+npm install --save-dev @types/react@latest @types/react-dom@latest @types/styled-components@latest @types/three@latest typescript@latest webpack@latest webpack-cli@latest webpack-dev-server@latest ts-loader@latest html-webpack-plugin@latest electron-builder@latest concurrently@latest wait-on@latest

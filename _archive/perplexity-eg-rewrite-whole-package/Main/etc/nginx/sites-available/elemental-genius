@@ -1,0 +1,12 @@
+# /etc/nginx/sites-available/elemental-genius
+server {
+    listen 80;
+    server_name your_domain_or_ip;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/srv/elemental-genius/elemental-genius.sock;
+    }
+
+    # Add SSL configuration here for HTTPS
+}

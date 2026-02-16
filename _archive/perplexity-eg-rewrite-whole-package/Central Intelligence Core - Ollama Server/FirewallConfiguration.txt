@@ -1,0 +1,9 @@
+# Example: Create an 'internal' zone for your private network range
+sudo firewall-cmd --permanent --new-zone=internal
+sudo firewall-cmd --permanent --zone=internal --add-source=192.168.1.0/24
+
+# Add the port to the zone
+sudo firewall-cmd --permanent --zone=internal --add-port=11434/tcp
+
+# Reload the firewall
+sudo firewall-cmd --reload

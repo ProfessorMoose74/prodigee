@@ -1,0 +1,103 @@
+# Elemental Genius VR Classroom - Python Dependencies
+# Unified standalone VR educational platform
+
+# ============================================================================
+# Core Framework
+# ============================================================================
+python-dotenv>=1.0.0           # Environment variable management
+pyyaml>=6.0.1                  # YAML configuration parsing
+
+# ============================================================================
+# Database & ORM
+# ============================================================================
+sqlalchemy>=2.0.23             # ORM for PostgreSQL/SQLite
+psycopg2-binary>=2.9.9         # PostgreSQL driver
+alembic>=1.13.0                # Database migrations
+
+# ============================================================================
+# Authentication & Security
+# ============================================================================
+pyjwt>=2.8.0                   # JWT token management
+werkzeug>=3.0.1                # Password hashing
+cryptography>=41.0.7           # Encryption utilities
+
+# ============================================================================
+# Web & Networking
+# ============================================================================
+requests>=2.31.0               # HTTP client
+urllib3>=2.1.0                 # HTTP library
+websocket-client>=1.7.0        # WebSocket client
+socketio-client>=0.7.2         # Socket.IO client
+
+# ============================================================================
+# Redis & Caching
+# ============================================================================
+redis>=5.0.1                   # Redis client
+hiredis>=2.3.2                 # Redis performance boost
+
+# ============================================================================
+# VR & 3D
+# ============================================================================
+# Note: OpenXR integration will be handled by Unity/Godot engine
+# Python-side handles data and communication only
+
+# ============================================================================
+# Voice Processing
+# ============================================================================
+SpeechRecognition>=3.10.1      # Speech recognition
+pydub>=0.25.1                  # Audio processing
+sounddevice>=0.4.6             # Audio I/O
+numpy>=1.26.2                  # Numerical computing
+
+# ============================================================================
+# Translation
+# ============================================================================
+googletrans>=4.0.0rc1          # Google Translate API
+# Alternative: deep-translator>=1.11.4
+
+# ============================================================================
+# Content Processing
+# ============================================================================
+Pillow>=10.1.0                 # Image processing
+python-magic>=0.4.27           # File type detection
+
+# ============================================================================
+# Logging & Monitoring
+# ============================================================================
+colorlog>=6.8.0                # Colored logging output
+structlog>=23.2.0              # Structured logging
+
+# ============================================================================
+# Data Validation
+# ============================================================================
+pydantic>=2.5.2                # Data validation
+marshmallow>=3.20.1            # Serialization/deserialization
+
+# ============================================================================
+# Utilities
+# ============================================================================
+python-dateutil>=2.8.2         # Date/time utilities
+pytz>=2023.3.post1             # Timezone handling
+click>=8.1.7                   # CLI framework
+
+# ============================================================================
+# Testing & Development
+# ============================================================================
+pytest>=7.4.3                  # Testing framework
+pytest-cov>=4.1.0              # Coverage reporting
+pytest-asyncio>=0.21.1         # Async testing
+black>=23.12.1                 # Code formatting
+flake8>=6.1.0                  # Linting
+mypy>=1.7.1                    # Type checking
+
+# ============================================================================
+# Platform-Specific (Install as needed)
+# ============================================================================
+# Windows:
+# pywin32>=306                 # Windows API access
+
+# Linux:
+# python3-xlib>=0.33           # X11 interface
+
+# macOS:
+# pyobjc>=10.0                 # macOS native APIs

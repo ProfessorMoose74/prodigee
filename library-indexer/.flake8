@@ -1,0 +1,38 @@
+[flake8]
+max-line-length = 120
+exclude = 
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    env,
+    build,
+    dist,
+    *.egg-info,
+    .pytest_cache,
+    .mypy_cache,
+    logs,
+    downloads
+
+ignore = 
+    # E203: whitespace before ':' (conflicts with black)
+    E203,
+    # W503: line break before binary operator (conflicts with black)
+    W503,
+    # E501: line too long (we set max-line-length instead)
+    E501
+
+per-file-ignores =
+    # Allow imports at the top of __init__.py files
+    __init__.py:F401
+    # Allow assertions in test files
+    tests/*.py:S101
+
+max-complexity = 10
+
+# Docstring conventions
+docstring-convention = google
+
+# Statistics
+statistics = True
+count = True

@@ -1,0 +1,2 @@
+sudo zypper install python3-pip python3-devel gcc redis
+pip install celery redis requests beautifulsoup4 nltk sentence-transformers

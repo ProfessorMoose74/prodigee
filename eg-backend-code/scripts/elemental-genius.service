@@ -1,0 +1,27 @@
+[Unit]
+Description=Elemental Genius Educational Platform
+After=network.target postgresql.service redis.service
+Wants=postgresql.service redis.service
+
+[Service]
+Type=forking
+User=elemental-genius
+Group=elemental-genius
+WorkingDirectory=/opt/elemental-genius/current
+Environment=FLASK_APP=elemental_genius_backend.py
+Environment=FLASK_ENV=production
+EnvironmentFile=/opt/elemental-genius/config/.env
+ExecStartPre=/bin/bash -c 'source venv/bin/activate && python database_setup.py'
+ExecStart=/bin/bash -c 'source venv/bin/activate && gunicorn --bind 0.0.0.0:8000 --workers 4 --timeout 120 elemental_genius_backend:app'
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+RestartSec=10
+
+# Security settings
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/opt/elemental-genius/current/instance
+
+[Install]
+WantedBy=multi-user.target

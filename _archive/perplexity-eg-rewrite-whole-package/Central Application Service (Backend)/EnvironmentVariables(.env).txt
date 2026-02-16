@@ -1,0 +1,14 @@
+# .env
+FLASK_APP=wsgi:app
+FLASK_ENV=production
+SECRET_KEY='generate-a-long-random-string-for-this'
+JWT_SECRET_KEY='generate-another-long-random-string'
+
+# Points to the PostgreSQL VM
+DATABASE_URL='postgresql://user:password@db_host:5432/elemental_genius_db'
+
+# Points to the AI Server
+OLLAMA_API_URL='http://your-ai-server-ip:11434'
+
+# An API key to secure the internal ingest endpoint
+INTERNAL_API_KEY='a-very-strong-secret-key-for-internal-services'\

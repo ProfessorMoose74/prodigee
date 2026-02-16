@@ -1,0 +1,7 @@
+/srv/content-processor/
+|-- tasks/
+|   |-- __init__.py
+|   |-- pipeline.py
+|-- celery_app.py
+|-- config.py
+|-- .env

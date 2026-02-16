@@ -1,0 +1,217 @@
+Here is the **Master Installation and Deployment Guide** for the entire Elemental Genius project. This guide consolidates all previous instructions into one sequential, end-to-end process. Follow these steps in order to build, configure, and deploy the entire system across your servers.
+
+### **Phase 0: Pre-flight Check & System Preparation**
+
+Before installing any software, ensure your server environment is ready.
+
+*   **Four Servers Required:** You will need four separate servers or virtual machines.
+    1.  **Database Server** (`db-server`)
+    2.  **Backend Server** (`backend-server`)
+    3.  **AI Server** (`ai-server`) - *This one requires the NVIDIA P100 GPU.*
+    4.  **Library Server** (`library-server`)
+*   **Operating System:** Install **openSUSE Leap 15.6** on all four servers[1].
+*   **Networking:** Assign static IP addresses to each server. You will need these IPs for the configuration files.
+*   **SSH Access:** Ensure you have SSH access to all four servers.
+
+### **Phase 1: Deploy the Database Server**
+
+This is the foundation. All other services depend on it.
+
+**Server:** `db-server`
+
+1.  **Install PostgreSQL:**
+    ```bash
+    sudo zypper install postgresql16-server
+    ```
+
+2.  **Initialize and Start the Service:**
+    ```bash
+    sudo systemctl enable --now postgresql
+    ```
+
+3.  **Create the Database and User:**
+    Log in as the `postgres` user to create the database and a dedicated user for your application.
+    ```bash
+    sudo -u postgres psql
+    ```
+    Inside the `psql` shell, run the following commands. **Replace `your_strong_password` with a secure password.**
+    ```sql
+    CREATE DATABASE elemental_genius_db;
+    CREATE USER elemental_genius_user WITH PASSWORD 'your_strong_password';
+    GRANT ALL PRIVILEGES ON DATABASE elemental_genius_db TO elemental_genius_user;
+    \q
+    ```
+
+4.  **Configure Network Access:**
+    You must edit two files to allow the other servers to connect to the database.
+    *   Edit `/var/lib/pgsql/data/postgresql.conf`. Find the line `#listen_addresses = 'localhost'` and change it to:
+        ```ini
+        listen_addresses = '*'
+        ```
+    *   Edit `/var/lib/pgsql/data/pg_hba.conf`. Add the following line to the end of the file, replacing `192.168.1.0/24` with your server's network range:
+        ```
+        host    all             all             192.168.1.0/24        scram-sha-256
+        ```
+
+5.  **Restart and Configure Firewall:**
+    ```bash
+    sudo systemctl restart postgresql
+    sudo firewall-cmd --add-service=postgresql --permanent
+    sudo firewall-cmd --reload
+    ```
+
+### **Phase 2: Deploy the Central Application Service (Backend)**
+
+This is the central brain of the application.
+
+**Server:** `backend-server`
+
+1.  **Install System Dependencies:**
+    ```bash
+    sudo zypper install python3-pip python3-devel gcc nginx
+    ```
+
+2.  **Create Project Directory and Virtual Environment:**
+    ```bash
+    sudo mkdir -p /srv/elemental-genius
+    sudo chown $USER:$USER /srv/elemental-genius
+    cd /srv/elemental-genius
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+
+3.  **Install Python Packages:**
+    ```bash
+    pip install Flask Flask-JWT-Extended Flask-SocketIO Flask-Cors SQLAlchemy psycopg2-binary gunicorn python-dotenv marshmallow bcrypt requests
+    ```
+
+4.  **Create and Populate Application Files:**
+    Create the directory `app` and then create all the Python files (`.env`, `wsgi.py`, `app/__init__.py`, etc.) exactly as detailed in the previous responses. **Crucially, edit the `.env` file** with the correct database password and the IP address of your `db-server` and `ai-server`.
+
+5.  **Configure and Start Gunicorn Service:**
+    Create the file `/etc/systemd/system/elemental-genius.service` and add the Gunicorn service configuration provided previously. Then enable and start it:
+    ```bash
+    sudo systemctl enable --now elemental-genius.service
+    ```
+
+6.  **Configure Nginx and Firewall:**
+    Create the Nginx configuration file at `/etc/nginx/sites-available/elemental-genius` as previously detailed. Enable the site and configure the firewall:
+    ```bash
+    sudo ln -s /etc/nginx/sites-available/elemental-genius /etc/nginx/sites-enabled/
+    sudo systemctl restart nginx
+    sudo firewall-cmd --add-service=http --permanent
+    sudo firewall-cmd --add-service=https --permanent
+    sudo firewall-cmd --reload
+    ```
+
+### **Phase 3: Deploy the Central Intelligence Core (AI Server)**
+
+This server handles all AI processing.
+
+**Server:** `ai-server` (with NVIDIA P100 GPU)
+
+1.  **Install NVIDIA Drivers:**
+    ```bash
+    sudo zypper addrepo --refresh https://download.nvidia.com/opensuse/leap/15.6 NVIDIA
+    sudo zypper install-new-recommends
+    sudo zypper install cuda-drivers
+    sudo reboot
+    ```
+
+2.  **Install Ollama:**
+    ```bash
+    curl -fsSL https://ollama.com/install.sh | sh
+    ```
+
+3.  **Download AI Models:**
+    Pull the models specified in the architecture.
+    ```bash
+    ollama pull llama3
+    ollama pull mxbai-embed-large
+    # Pull any other required models
+    ```
+
+4.  **Deploy the AI Facade:**
+    This Python script acts as a translator for your backend.
+    *   Create a directory: `mkdir /srv/ai-facade && cd /srv/ai-facade`
+    *   Set up a Python virtual environment and install Flask: `python3 -m venv venv && source venv/bin/activate && pip install Flask requests`
+    *   Create the `ai_facade.py` script as detailed previously.
+    *   Run the facade (you can create a `systemd` service for this as well): `python ai_facade.py`
+
+5.  **Configure Firewall:**
+    Open the ports for Ollama (11434) and your AI Facade (e.g., 5001).
+    ```bash
+    sudo firewall-cmd --add-port=11434/tcp --permanent
+    sudo firewall-cmd --add-port=5001/tcp --permanent
+    sudo firewall-cmd --reload
+    ```
+
+### **Phase 4: Deploy the Content Processing Engine (Library Server)**
+
+This server ingests educational content.
+
+**Server:** `library-server`
+
+1.  **Install Dependencies:**
+    ```bash
+    sudo zypper install python3-pip python3-devel gcc redis
+    sudo systemctl enable --now redis
+    ```
+
+2.  **Create Project Directory and Virtual Environment:**
+    ```bash
+    mkdir /srv/content-processor && cd /srv/content-processor
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+
+3.  **Install Python Packages:**
+    ```bash
+    pip install celery redis requests beautifulsoup4
+    ```
+
+4.  **Create and Populate Application Files:**
+    Create the `celery_app.py` and `tasks/pipeline.py` files as detailed previously. Create a `.env` file here as well, containing the IP address and API key for your `backend-server`.
+
+5.  **Configure and Start Celery Worker Service:**
+    Create the file `/etc/systemd/system/celery-worker.service` with the configuration provided previously. Then enable and start it:
+    ```bash
+    sudo systemctl enable --now celery-worker.service
+    ```
+
+### **Phase 5 & 6: Install and Build the Client Applications**
+
+These steps are performed on your **local development machine**, not on the servers.
+
+#### **Desktop Client Installation**
+
+1.  **Follow the setup instructions precisely as laid out in the previous response:**
+    *   Create the project directory (`elemental-genius-desktop`).
+    *   Run `npm init -y`.
+    *   Create the `electron`, `src`, and `public` directories.
+    *   Install all `npm` core and development dependencies.
+    *   Create and populate all the configuration files (`tsconfig.json`, `webpack.config.js`).
+    *   Create and populate all the `electron/`, `public/`, and `src/` files.
+    *   **Crucially, create a `.env` file in the project root** and set `REACT_APP_API_URL` to the public IP address of your `backend-server`.
+    *   Update `package.json` with the `main`, `build`, and `scripts` sections.
+
+2.  **Run the Development App:**
+    ```bash
+    npm run dev
+    ```
+
+#### **Mobile Client Installation**
+
+1.  **Follow the setup instructions precisely as laid out in the previous response:**
+    *   Ensure you have the full React Native development environment (Node.js, JDK, etc.).
+    *   Initialize the project: `npx react-native init ElementalGeniusMobile --template react-native-template-typescript`.
+    *   `cd ElementalGeniusMobile`.
+    *   Install all the `npm` core and development dependencies listed.
+    *   Create and populate all the files and directories inside `src/` (navigation, store, screens, components, utils).
+    *   **Crucially, create a `.env` file in the project root** and set `API_URL` to the public IP address of your `backend-server`.
+
+2.  **Run the Development App:**
+    *   **For Android:** `npx react-native run-android`
+    *   **For iOS:** `cd ios && pod install && cd .. && npx react-native run-ios`
+
+[1] programming.python

@@ -1,0 +1,162 @@
+{
+  "app_info": {
+    "app_id": "elemental_genius_vr_classroom",
+    "name": "Elemental Genius VR Classroom",
+    "display_name": "VR Classroom",
+    "version": "1.0.0",
+    "description": "Safe virtual classroom for children's education with real-time translation",
+    "developer": "Elemental Genius, LLC",
+    "category": "education",
+    "age_rating": "5+",
+    "coppa_compliant": true,
+    "gdpr_compliant": true,
+    "icon": "assets/icons/classroom_icon.png",
+    "banner": "assets/banners/classroom_banner.jpg",
+    "screenshots": [
+      "assets/screenshots/classroom_1.jpg",
+      "assets/screenshots/classroom_2.jpg",
+      "assets/screenshots/lunchroom.jpg"
+    ]
+  },
+  "helyxium_integration": {
+    "required_helyxium_version": "1.0.0",
+    "api_version": "1.0",
+    "uses_helyxium_services": [
+      "universal_translator",
+      "cross_platform_bridge",
+      "location_services",
+      "avatar_sync",
+      "voice_processing",
+      "safety_monitoring",
+      "parent_controls"
+    ],
+    "platform_support": {
+      "meta_quest": {
+        "supported": true,
+        "min_version": "2",
+        "optimizations": "mobile_vr"
+      },
+      "steam_vr": {
+        "supported": true,
+        "min_version": "1.0",
+        "optimizations": "desktop_vr"
+      },
+      "psvr": {
+        "supported": true,
+        "min_version": "1.0",
+        "optimizations": "console_vr"
+      },
+      "vrchat": {
+        "supported": true,
+        "integration_type": "world",
+        "optimizations": "vrchat_compatible"
+      },
+      "desktop": {
+        "supported": true,
+        "fallback_mode": true
+      }
+    }
+  },
+  "permissions": {
+    "required": [
+      "microphone",
+      "location_general",
+      "cross_platform_communication",
+      "avatar_access",
+      "parent_verification"
+    ],
+    "optional": [
+      "camera",
+      "hand_tracking",
+      "eye_tracking",
+      "haptic_feedback"
+    ]
+  },
+  "safety_features": {
+    "child_safe": true,
+    "parental_controls": true,
+    "voice_verification": true,
+    "content_filtering": "strict",
+    "communication_restrictions": "pre_approved_only",
+    "session_recording": "parent_consent_required",
+    "emergency_controls": true,
+    "moderation": "ai_plus_human"
+  },
+  "educational_features": {
+    "curriculum_integration": "elemental_genius",
+    "age_ranges": ["5-7", "8-10", "11-13"],
+    "subjects": ["phonics", "reading", "math", "science", "geography"],
+    "assessment_tools": true,
+    "progress_tracking": true,
+    "multi_language_support": true,
+    "adaptive_learning": true
+  },
+  "technical_requirements": {
+    "min_memory": "2GB",
+    "recommended_memory": "4GB",
+    "storage_space": "1GB",
+    "network_bandwidth": "10Mbps",
+    "processor": "ARM64 or x86_64",
+    "graphics": "OpenGL ES 3.0 / Vulkan"
+  },
+  "launch_configuration": {
+    "launch_type": "direct",
+    "entry_point": "src.apps.classroom.main:ClassroomApp",
+    "requires_authentication": "parent_child",
+    "supports_deep_links": true,
+    "instance_limit": 1,
+    "session_timeout": 3600
+  },
+  "monetization": {
+    "pricing_model": "subscription",
+    "free_tier": {
+      "enabled": true,
+      "limitations": {
+        "session_duration": 30,
+        "features": "basic"
+      }
+    },
+    "subscription_tiers": [
+      {
+        "tier": "family",
+        "price": "$29.99/month",
+        "features": ["unlimited_sessions", "all_subjects", "parent_analytics", "up_to_6_children"]
+      }
+    ]
+  },
+  "content_localization": {
+    "supports_localization": true,
+    "default_language": "en",
+    "supported_languages": [
+      "en", "es", "fr", "de", "zh_CN", "zh_TW", "ja", "ko", "pt", "ru", "ar", "hi", "it", "nl"
+    ],
+    "dynamic_content": {
+      "flags": true,
+      "maps": true,
+      "landmarks": true,
+      "currency": true,
+      "measurement_units": true
+    }
+  },
+  "integration_apis": {
+    "external_services": [
+      {
+        "name": "Elemental Genius API",
+        "endpoint": "https://api.elementalgenius.com",
+        "purpose": "curriculum_content"
+      },
+      {
+        "name": "Parent Portal API", 
+        "endpoint": "https://parents.elementalgenius.com/api",
+        "purpose": "parent_dashboard"
+      }
+    ]
+  },
+  "app_lifecycle": {
+    "initialization_time": "< 3 seconds",
+    "supports_background_mode": false,
+    "graceful_shutdown": true,
+    "auto_save_interval": 300,
+    "crash_recovery": true
+  }
+}

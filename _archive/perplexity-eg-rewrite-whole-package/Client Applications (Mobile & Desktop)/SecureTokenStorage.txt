@@ -1,0 +1,6 @@
+Secure Token Storage (authStorage.js):
+This is an abstraction. You would implement it differently for mobile vs. desktop.
+
+React Native: Use a library like react-native-keychain.
+
+Electron: Use electron-store or keytar

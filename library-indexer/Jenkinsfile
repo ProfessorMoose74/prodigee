@@ -1,0 +1,302 @@
+pipeline {
+    agent any
+    
+    environment {
+        PYTHON_VERSION = '3.11'
+        VENV_DIR = 'venv'
+        DEPLOY_SERVER = credentials('deploy-server')  // Configure in Jenkins credentials
+        DEPLOY_PATH = '/opt/library-indexer'
+        SERVICE_NAME = 'library-indexer'
+    }
+    
+    options {
+        timestamps()
+        timeout(time: 1, unit: 'HOURS')
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        disableConcurrentBuilds()
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                script {
+                    // Get commit info for build description
+                    env.GIT_COMMIT_SHORT = sh(
+                        script: "git rev-parse --short HEAD",
+                        returnStdout: true
+                    ).trim()
+                    env.GIT_BRANCH = sh(
+                        script: "git rev-parse --abbrev-ref HEAD",
+                        returnStdout: true
+                    ).trim()
+                    currentBuild.description = "Branch: ${env.GIT_BRANCH}, Commit: ${env.GIT_COMMIT_SHORT}"
+                }
+            }
+        }
+        
+        stage('Setup Python Environment') {
+            steps {
+                script {
+                    // Check if Python 3.11 is available
+                    sh """
+                        python${PYTHON_VERSION} --version || {
+                            echo "Python ${PYTHON_VERSION} not found. Trying python3..."
+                            python3 --version
+                        }
+                    """
+                    
+                    // Create virtual environment
+                    sh """
+                        python${PYTHON_VERSION} -m venv ${VENV_DIR} || python3 -m venv ${VENV_DIR}
+                        . ${VENV_DIR}/bin/activate
+                        pip install --upgrade pip setuptools wheel
+                    """
+                }
+            }
+        }
+        
+        stage('Install Dependencies') {
+            parallel {
+                stage('Production Dependencies') {
+                    steps {
+                        sh """
+                            . ${VENV_DIR}/bin/activate
+                            pip install -r requirements.txt
+                        """
+                    }
+                }
+                stage('Development Dependencies') {
+                    steps {
+                        sh """
+                            . ${VENV_DIR}/bin/activate
+                            pip install -r requirements-dev.txt
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Code Quality Checks') {
+            parallel {
+                stage('Linting with Flake8') {
+                    steps {
+                        sh """
+                            . ${VENV_DIR}/bin/activate
+                            flake8 digital_library_system.py --config=.flake8 --format=pylint --output-file=flake8-report.txt || true
+                            flake8 digital_library_system.py --config=.flake8 --statistics
+                        """
+                        recordIssues(
+                            enabledForFailure: true,
+                            tool: flake8(pattern: 'flake8-report.txt'),
+                            qualityGates: [[threshold: 10, type: 'TOTAL', unstable: true]]
+                        )
+                    }
+                }
+                stage('Code Formatting Check') {
+                    steps {
+                        sh """
+                            . ${VENV_DIR}/bin/activate
+                            black --check digital_library_system.py tests/ || {
+                                echo "Code formatting issues found. Run 'black digital_library_system.py tests/' to fix."
+                                exit 1
+                            }
+                        """
+                    }
+                }
+                stage('Type Checking with MyPy') {
+                    steps {
+                        sh """
+                            . ${VENV_DIR}/bin/activate
+                            mypy digital_library_system.py --ignore-missing-imports --no-error-summary || true
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Run Tests') {
+            steps {
+                sh """
+                    . ${VENV_DIR}/bin/activate
+                    pytest tests/ \
+                        --verbose \
+                        --junit-xml=test-results/junit.xml \
+                        --cov=digital_library_system \
+                        --cov-report=xml:coverage.xml \
+                        --cov-report=html:coverage-html \
+                        --cov-report=term
+                """
+            }
+            post {
+                always {
+                    junit 'test-results/junit.xml'
+                    publishHTML(target: [
+                        reportDir: 'coverage-html',
+                        reportFiles: 'index.html',
+                        reportName: 'Coverage Report'
+                    ])
+                    recordCoverage(
+                        tools: [[parser: 'COBERTURA', pattern: 'coverage.xml']],
+                        id: 'python-coverage',
+                        name: 'Python Coverage',
+                        sourceCodeRetention: 'EVERY_BUILD',
+                        qualityGates: [
+                            [threshold: 80.0, metric: 'LINE', baseline: 'PROJECT', unstable: true],
+                            [threshold: 70.0, metric: 'BRANCH', baseline: 'PROJECT', unstable: true]
+                        ]
+                    )
+                }
+            }
+        }
+        
+        stage('Security Scan') {
+            steps {
+                sh """
+                    . ${VENV_DIR}/bin/activate
+                    pip install safety bandit
+                    safety check --json > safety-report.json || true
+                    bandit -r digital_library_system.py -f json -o bandit-report.json || true
+                """
+                script {
+                    if (fileExists('safety-report.json')) {
+                        def safetyReport = readJSON file: 'safety-report.json'
+                        if (safetyReport.size() > 0) {
+                            unstable(message: "Security vulnerabilities found in dependencies")
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Build Artifacts') {
+            steps {
+                sh """
+                    # Create deployment package
+                    mkdir -p dist
+                    cp digital_library_system.py dist/
+                    cp requirements.txt dist/
+                    cp -r ElementalGeniusLibraryServerInstructions.md dist/ || true
+                    
+                    # Create deployment script
+                    cat > dist/deploy.sh << 'EOF'
+#!/bin/bash
+set -e
+
+DEPLOY_DIR="${DEPLOY_PATH}"
+SERVICE_NAME="${SERVICE_NAME}"
+
+# Create deployment directory
+mkdir -p \\$DEPLOY_DIR
+
+# Copy files
+cp -r * \\$DEPLOY_DIR/
+
+# Create virtual environment if it doesn't exist
+if [ ! -d "\\$DEPLOY_DIR/venv" ]; then
+    python3.11 -m venv \\$DEPLOY_DIR/venv || python3 -m venv \\$DEPLOY_DIR/venv
+fi
+
+# Install dependencies
+source \\$DEPLOY_DIR/venv/bin/activate
+pip install --upgrade pip
+pip install -r \\$DEPLOY_DIR/requirements.txt
+
+# Create systemd service file if it doesn't exist
+if [ ! -f "/etc/systemd/system/\\${SERVICE_NAME}.service" ]; then
+    sudo tee /etc/systemd/system/\\${SERVICE_NAME}.service > /dev/null << 'EOSERVICE'
+[Unit]
+Description=Library Indexer Service
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=\\$DEPLOY_DIR
+ExecStart=\\$DEPLOY_DIR/venv/bin/python \\$DEPLOY_DIR/digital_library_system.py --source gutenberg --limit 100
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOSERVICE
+fi
+
+# Reload systemd and restart service
+sudo systemctl daemon-reload
+sudo systemctl enable \\${SERVICE_NAME}.service
+sudo systemctl restart \\${SERVICE_NAME}.service
+sudo systemctl status \\${SERVICE_NAME}.service
+
+echo "Deployment completed successfully!"
+EOF
+                    chmod +x dist/deploy.sh
+                    
+                    # Create tarball
+                    tar -czf library-indexer-${BUILD_NUMBER}.tar.gz -C dist .
+                """
+                
+                archiveArtifacts artifacts: 'library-indexer-*.tar.gz', fingerprint: true
+            }
+        }
+        
+        stage('Deploy to Server') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    input message: 'Deploy to production server?', ok: 'Deploy'
+                    
+                    sshagent(['deploy-ssh-key']) {  // Configure SSH key in Jenkins credentials
+                        sh """
+                            # Copy artifact to server
+                            scp library-indexer-${BUILD_NUMBER}.tar.gz ${DEPLOY_SERVER}:/tmp/
+                            
+                            # Extract and run deployment script
+                            ssh ${DEPLOY_SERVER} << 'ENDSSH'
+                                cd /tmp
+                                tar -xzf library-indexer-${BUILD_NUMBER}.tar.gz
+                                bash deploy.sh
+                                rm -f library-indexer-${BUILD_NUMBER}.tar.gz
+ENDSSH
+                        """
+                    }
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs(
+                deleteDirs: true,
+                disableDeferredWipeout: true,
+                patterns: [
+                    [pattern: 'venv/**', type: 'EXCLUDE'],
+                    [pattern: '.git/**', type: 'EXCLUDE']
+                ]
+            )
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+            script {
+                if (env.BRANCH_NAME == 'main') {
+                    currentBuild.description = "${currentBuild.description} - Deployed to Production"
+                }
+            }
+        }
+        failure {
+            echo 'Pipeline failed!'
+            script {
+                currentBuild.description = "${currentBuild.description} - FAILED"
+            }
+        }
+        unstable {
+            echo 'Pipeline completed with warnings.'
+            script {
+                currentBuild.description = "${currentBuild.description} - UNSTABLE"
+            }
+        }
+    }
+}

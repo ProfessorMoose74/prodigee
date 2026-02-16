@@ -1,0 +1,308 @@
+# Elemental Genius VR Classroom - Unified Configuration
+# Complete standalone VR educational platform
+
+# Application Metadata
+application:
+  name: "Elemental Genius VR Classroom"
+  version: "1.0.0"
+  environment: "development"  # development, staging, production
+  debug: true
+  log_level: "INFO"
+
+# VR Platform Configuration
+vr:
+  platform: "openxr"  # openxr, steamvr, oculus, psvr
+  target_fps: 90
+  enable_hand_tracking: true
+  enable_eye_tracking: false
+  enable_passthrough: false
+  comfort_settings:
+    vignette_on_movement: true
+    snap_turning_degrees: 45
+    teleport_enabled: true
+    smooth_locomotion: false
+
+# Backend Services Integration
+services:
+  # Main Flask Backend (eg-backend-code)
+  backend:
+    enabled: true
+    url: "http://localhost:5000"
+    websocket_url: "ws://localhost:5000"
+    timeout: 30
+    retry_attempts: 3
+
+  # Library/Content Server (library-backend-data)
+  library:
+    enabled: true
+    url: "http://localhost:8001"
+    content_cache_size_mb: 500
+    preload_assets: true
+
+  # AI/Ollama Server
+  ai:
+    enabled: true
+    url: "http://localhost:11434"
+    model: "llama2"
+    context_window: 4096
+
+  # Translation Service
+  translation:
+    enabled: true
+    provider: "google"  # google, deepl, azure
+    api_key: "${TRANSLATION_API_KEY}"
+    cache_translations: true
+
+# Database Configuration
+database:
+  # PostgreSQL - Shared with backend
+  type: "postgresql"
+  host: "localhost"
+  port: 5432
+  name: "elemental_genius_vr"
+  user: "eg_user"
+  password: "${DATABASE_PASSWORD}"
+  pool_size: 20
+  max_overflow: 10
+  echo: false
+
+  # Local SQLite for offline mode
+  local_db_path: "data/vr_classroom_local.db"
+
+# Redis Cache (Shared with backend)
+cache:
+  enabled: true
+  host: "localhost"
+  port: 6379
+  db: 1  # Use separate DB from backend
+  password: "${REDIS_PASSWORD}"
+  ttl_seconds: 3600
+
+# Authentication & Security
+auth:
+  jwt_secret: "${JWT_SECRET}"
+  jwt_algorithm: "HS256"
+  token_expiry_hours: 24
+  session_timeout_minutes: 60
+  require_parent_auth: true
+  enable_biometric: false
+
+# COPPA Compliance & Safety
+safety:
+  coppa_enabled: true
+  age_verification_required: true
+  parental_consent_required: true
+  session_recording: false  # Requires explicit parent consent
+
+  # Session Limits (COPPA)
+  max_session_minutes:
+    age_5_7: 30
+    age_8_10: 45
+    age_11_13: 60
+
+  # Break Reminders
+  break_reminder_interval_minutes: 15
+
+  # Communication Restrictions
+  free_text_chat: false
+  voice_chat_supervised: true
+  private_messaging: false
+
+  # Approved Phrases Only
+  communication_mode: "approved_phrases"  # approved_phrases, supervised_free, disabled
+
+  # Parent Controls
+  shadow_mode_enabled: true
+  emergency_stop_enabled: true
+  real_time_monitoring: true
+
+# Curriculum Configuration
+curriculum:
+  # Heggerty Phonemic Awareness
+  heggerty:
+    enabled: true
+    weeks_available: 35
+    daily_lesson_minutes: 8
+
+  # STEM Projects
+  stem:
+    enabled: true
+    age_appropriate_filtering: true
+
+  # Character Values
+  character_values:
+    enabled: true
+    monthly_trait_rotation: true
+
+# VR Classroom Environment
+classroom:
+  # Historical Period
+  era: "1920s_american"
+  aesthetic: "one_room_schoolhouse"
+
+  # Localization
+  localization:
+    enabled: true
+    auto_detect_location: true
+    show_country_flag: true
+    show_country_map: true
+    use_local_timezone: true
+    use_local_measurement: true
+    use_local_currency: true
+
+  # Classroom Capacity
+  max_students: 25
+  teacher_slots: 1
+  observer_slots: 5  # For parents in shadow mode
+
+  # Interactive Elements
+  blackboard:
+    enabled: true
+    chalk_physics: true
+    handwriting_recognition: false
+
+  # Lunch Room
+  lunchroom:
+    enabled: true
+    daily_landmark_rotation: true
+    landmark_ratio_local: 0.4
+    landmark_ratio_international: 0.6
+    landmark_count: 20
+
+# Characters (AI-Powered NPCs)
+characters:
+  professor_al:
+    enabled: true
+    personality: "enthusiastic_educator"
+    voice: "male_educator"
+    animation_set: "teacher_gestures"
+
+  ella:
+    enabled: true
+    personality: "curious_learner"
+    voice: "child_female"
+    animation_set: "student_gestures"
+
+  gus:
+    enabled: true
+    personality: "supportive_friend"
+    voice: "child_male"
+    animation_set: "student_gestures"
+
+# Voice Processing
+voice:
+  # Input
+  microphone:
+    sample_rate: 16000
+    channels: 1
+    device: "default"  # VR headset mic
+
+  # Speech Recognition
+  recognition:
+    engine: "google"  # google, whisper, azure
+    language_auto_detect: true
+    confidence_threshold: 0.7
+
+  # Text-to-Speech
+  tts:
+    engine: "google"  # google, azure, elevenlabs
+    voice_cloning: false
+    emotional_tone: true
+
+# Multi-User / Networking
+networking:
+  enabled: true
+  max_concurrent_users: 30
+
+  # Position Sync
+  position_update_rate_hz: 20
+  position_interpolation: true
+
+  # Voice Chat
+  voice_chat_enabled: true
+  voice_codec: "opus"
+  voice_bitrate_kbps: 32
+  spatial_audio: true
+
+  # Bandwidth Optimization
+  delta_compression: true
+  predictive_interpolation: true
+
+# Performance Optimization
+performance:
+  # Platform-Specific Profiles
+  profile: "auto"  # auto, mobile_vr, desktop_vr, console_vr
+
+  # Graphics Settings
+  graphics:
+    texture_quality: "high"
+    shadow_quality: "medium"
+    anti_aliasing: "msaa_4x"
+    render_scale: 1.0
+
+  # LOD (Level of Detail)
+  lod:
+    enabled: true
+    distances: [5, 15, 30, 50]
+
+  # Occlusion Culling
+  occlusion_culling: true
+
+  # Memory Management
+  memory:
+    max_texture_cache_mb: 512
+    max_audio_cache_mb: 128
+    aggressive_gc: false
+
+# Analytics & Telemetry
+analytics:
+  enabled: true
+  anonymous_usage_stats: true
+  performance_monitoring: true
+  crash_reporting: true
+
+  # What to Track
+  track_session_duration: true
+  track_learning_progress: true
+  track_interaction_patterns: true
+  track_voice_accuracy: true
+
+# Content Paths
+paths:
+  content_root: "data/content"
+  upload_dir: "data/uploads"
+  cache_dir: "data/cache"
+  logs_dir: "logs"
+  models_3d: "assets/3d_models"
+  textures: "assets/textures"
+  audio: "assets/audio"
+  ui_assets: "assets/ui"
+
+# Feature Flags (Easy Enable/Disable)
+features:
+  multi_user_classrooms: true
+  parent_observation_mode: true
+  ai_teaching_assistant: true
+  adaptive_difficulty: true
+  voice_translation: true
+  offline_mode: false
+  vr_hand_gestures: true
+  accessibility_mode: true
+
+# Accessibility
+accessibility:
+  closed_captions: true
+  text_size_multiplier: 1.0
+  high_contrast_mode: false
+  colorblind_mode: "none"  # none, protanopia, deuteranopia, tritanopia
+  audio_descriptions: true
+  reduced_motion: false
+
+# Development & Debugging
+development:
+  mock_backend: false
+  mock_vr_headset: false
+  enable_debug_ui: true
+  show_performance_stats: true
+  enable_console_commands: true
+  hot_reload_assets: true

@@ -1,0 +1,121 @@
+# ============================================================================
+# PRODIGEE - Elemental Genius Learning Program
+# Monorepo .gitignore
+# ============================================================================
+
+# === Node.js / React Native ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+.installed.cfg
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+nosetests.xml
+coverage.xml
+
+# === Virtual Environments ===
+.env
+.env.local
+.env.*.local
+.venv
+env/
+venv/
+ENV/
+
+# === Build Artifacts ===
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+develop-eggs/
+sdist/
+var/
+wheels/
+*.manifest
+*.spec
+
+# === Android ===
+*.apk
+*.aab
+eg-android-app/android/.gradle/
+eg-android-app/android/app/build/
+eg-android-app/android/local.properties
+*.hprof
+
+# === iOS ===
+Pods/
+*.xcworkspace
+*.xcuserdata
+
+# === Electron ===
+eg-frontend-win-mac/dist/
+eg-frontend-win-mac/out/
+
+# === Unity / VR ===
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uilds/
+[Uu]ser[Ss]ettings/
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.unitypackage
+
+# === Databases ===
+*.db
+*.sqlite
+*.sqlite3
+instance/
+dump.rdb
+
+# === IDE / Editor ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Logs ===
+logs/
+*.log
+
+# === Temp / Cache ===
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+.cache/
+data/cache/
+assets/cache/
+assets/downloads/
+
+# === Claude Code ===
+.claude/

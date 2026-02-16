@@ -1,0 +1,123 @@
+# Elemental Genius Educational Platform
+# Python 3.11.3 Dependencies for openSUSE Leap 15.6
+# Four-Server Architecture: ESX Web, Library, AI, Integration
+
+# === Core Web Framework ===
+Flask==3.0.0
+Flask-SQLAlchemy==3.1.1
+Flask-SocketIO==5.3.6
+Flask-Login==0.6.3
+Flask-WTF==1.2.1
+Flask-CORS==4.0.0
+Werkzeug==3.0.1
+Gunicorn==21.2.0
+
+# === Database and Data Processing ===
+SQLAlchemy==2.0.23
+psycopg2-binary==2.9.9
+alembic==1.12.1
+redis==5.0.1
+
+# === Authentication and Security ===
+PyJWT==2.8.0
+bcrypt==4.1.2
+cryptography==41.0.7
+
+# === Background Task Processing ===
+celery==5.3.4
+kombu==5.3.4
+
+# === Artificial Intelligence and Machine Learning ===
+tensorflow==2.15.0
+scikit-learn==1.3.2
+numpy==1.24.3
+scipy==1.11.4
+pandas==2.1.4
+matplotlib==3.8.2
+seaborn==0.13.0
+
+# === Voice Processing and Audio (for AI Server) ===
+SpeechRecognition==3.10.0
+pyttsx3==2.90
+PyAudio==0.2.11
+wave==0.0.2
+webrtcvad==2.0.10
+
+# === Image and Media Processing ===
+Pillow==10.1.0
+opencv-python==4.8.1.78
+
+# === System Integration (openSUSE Leap 15.6) ===
+python-systemd==235
+psutil==5.9.6
+python-dotenv==1.0.0
+APScheduler==3.10.4
+
+# === API Documentation and Validation ===
+marshmallow==3.20.1
+Flask-Restful==0.3.10
+flasgger==0.9.7.1
+
+# === Testing and Development ===
+pytest==7.4.3
+pytest-flask==1.3.0
+pytest-cov==4.1.0
+factory-boy==3.3.0
+faker==20.1.0
+
+# === Monitoring and Logging ===
+prometheus-client==0.19.0
+structlog==23.2.0
+
+# === HTTP and Communication ===
+requests==2.31.0
+httpx==0.25.2
+websockets==12.0
+
+# === Data Validation and Serialization ===
+cerberus==1.3.5
+jsonschema==4.20.0
+
+# === Caching ===
+Flask-Caching==2.1.0
+
+# === Environment and Configuration ===
+click==8.1.7
+python-decouple==3.8
+
+# === Educational Content Processing ===
+textblob==0.17.1
+nltk==3.8.1
+
+# === 3D and Visualization (for educational content) ===
+plotly==5.17.0
+mayavi==4.8.1
+
+# === CUDA Support (for NVIDIA Tesla GPUs) ===
+# Note: Install separately based on CUDA version
+# tensorflow-gpu==2.15.0  # Alternative for GPU support
+# torch==2.1.1+cu118  # Alternative ML framework with CUDA
+
+# === Production Server Requirements ===
+uwsgi==2.0.23  # Alternative to Gunicorn
+nginx==1.18.0  # For reverse proxy (system package)
+
+# === Async Support ===
+asyncio==3.4.3
+aiohttp==3.9.1
+
+# === XML and Data Processing ===
+lxml==4.9.3
+beautifulsoup4==4.12.2
+
+# === Date and Time Processing ===
+python-dateutil==2.8.2
+pytz==2023.3
+
+# === Memory and Performance ===
+memory-profiler==0.61.0
+line-profiler==4.1.1
+
+# === Utilities ===
+tqdm==4.66.1
+colorama==0.4.6

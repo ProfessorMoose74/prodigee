@@ -1,0 +1,19 @@
+sudo zypper addrepo --refresh https://download.nvidia.com/opensuse/leap/15.6 NVIDIA
+sudo zypper install-new-recommends
+sudo zypper install cuda-drivers
+curl -fsSL https://ollama.com/install.sh | sh
+# 1. Pull a Speech-to-Text model (e.g., Whisper)
+# Note: As of now, Whisper is typically run outside Ollama. You'd use a separate service.
+# For simplicity within the Ollama ecosystem, we assume a compatible STT model exists
+# or use a general model fine-tuned for transcription tasks.
+
+# 2. Pull a powerful Language Model (LLM)
+ollama pull llama3 # For generating dialogue
+
+# 3. Pull a multi-lingual model for embedding (for the library)
+ollama pull mxbai-embed-large # For creating vector embeddings
+
+# 4. For Text-to-Speech (TTS)
+# Ollama does not have integrated TTS. You will need a separate service.
+# A popular choice is Piper. You would run this as another service on this server.
+# Installation for Piper would involve downloading binaries and voice models.

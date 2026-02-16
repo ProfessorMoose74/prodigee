@@ -1,0 +1,486 @@
+{
+  "curriculum_name": "Character Development & American Values Integration",
+  "foundation": "Biblical principles aligned with American civic virtues",
+  "age_progressions": {
+    "3-5": {
+      "focus": "Foundation virtues and basic understanding",
+      "approach": "Story-based learning with concrete examples"
+    },
+    "6-8": {
+      "focus": "Application and habit formation",
+      "approach": "Interactive scenarios and role-playing"
+    },
+    "9-10": {
+      "focus": "Leadership and complex moral reasoning",
+      "approach": "Case studies and service projects"
+    }
+  },
+  "character_traits": [
+    {
+      "trait_id": "CHAR-001",
+      "character_trait": "Honesty",
+      "biblical_foundation": "Proverbs 12:22 - 'The Lord detests lying lips, but he delights in people who are trustworthy.'",
+      "american_values_connection": "George Washington and the cherry tree; Honest Abe Lincoln returning borrowed books; integrity in democratic process",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Truth vs. lie sorting game",
+          "Honesty jar - celebrate truth telling",
+          "Story: 'The Boy Who Cried Wolf'",
+          "Role-play: admitting mistakes"
+        ],
+        "6-8": [
+          "Honesty journal entries",
+          "Research honest historical figures",
+          "Create honesty pledge",
+          "White lie discussions"
+        ],
+        "9-10": [
+          "Ethics case studies",
+          "Plagiarism and academic honesty",
+          "Truth in media analysis",
+          "Honor code development"
+        ]
+      },
+      "real_world_applications": [
+        "Admitting when you break something",
+        "Telling the truth even when scared",
+        "Returning extra change at store",
+        "Accurate self-assessment in schoolwork"
+      ],
+      "assessment_indicators": {
+        "emerging": "Understands difference between truth and lies",
+        "developing": "Tells truth in easy situations",
+        "proficient": "Consistently honest even when difficult",
+        "advanced": "Promotes honesty in others"
+      },
+      "ai_discussion_prompts": [
+        "Generate age-appropriate scenario about finding money",
+        "Create story where honesty leads to positive outcome",
+        "Develop questions about white lies and absolute truth",
+        "Design family discussion about honesty in daily life"
+      ],
+      "weekly_lessons": {
+        "week1": {
+          "theme": "What is Truth?",
+          "activities": ["Define honesty", "Truth detective game", "Bible story: Ananias and Sapphira"],
+          "family_challenge": "No lying week - celebrate successes"
+        },
+        "week2": {
+          "theme": "Honesty in History",
+          "activities": ["Washington biography", "Lincoln stories", "American truth-tellers"],
+          "family_challenge": "Research honest family ancestor"
+        },
+        "week3": {
+          "theme": "Consequences of Dishonesty",
+          "activities": ["Cause and effect charts", "Trust building exercises", "Repair relationships"],
+          "family_challenge": "Make amends for past dishonesty"
+        },
+        "week4": {
+          "theme": "Living Honestly",
+          "activities": ["Create family honesty code", "Practice scenarios", "Celebration ceremony"],
+          "family_challenge": "Model honesty in community"
+        }
+      }
+    },
+    {
+      "trait_id": "CHAR-002",
+      "character_trait": "Courage",
+      "biblical_foundation": "Joshua 1:9 - 'Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you.'",
+      "american_values_connection": "Founding Fathers' courage in revolution; Civil Rights heroes; Military service and sacrifice; First responders",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Brave vs. scared sorting",
+          "David and Goliath story",
+          "Practice speaking up",
+          "Courage certificates"
+        ],
+        "6-8": [
+          "Courage in history timeline",
+          "Standing up to bullies roleplay",
+          "Fear facing challenges",
+          "Local hero interviews"
+        ],
+        "9-10": [
+          "Moral courage essays",
+          "Whistleblower case studies",
+          "Leadership under pressure",
+          "Courage project planning"
+        ]
+      },
+      "real_world_applications": [
+        "Trying new foods or activities",
+        "Standing up for someone being teased",
+        "Admitting mistakes publicly",
+        "Speaking truth to authority"
+      ],
+      "assessment_indicators": {
+        "emerging": "Identifies brave actions",
+        "developing": "Shows courage with support",
+        "proficient": "Independently demonstrates courage",
+        "advanced": "Inspires courage in others"
+      }
+    },
+    {
+      "trait_id": "CHAR-003",
+      "character_trait": "Responsibility",
+      "biblical_foundation": "Galatians 6:5 - 'For each will have to bear his own load.'",
+      "american_values_connection": "Personal responsibility in democracy; Self-reliance and independence; Civic duty and voting; Community service",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Classroom jobs chart",
+          "Pet care simulation",
+          "Clean-up songs",
+          "Responsibility badges"
+        ],
+        "6-8": [
+          "Chore contracts",
+          "Money management basics",
+          "Project planning",
+          "Community service hours"
+        ],
+        "9-10": [
+          "Leadership roles",
+          "Time management systems",
+          "Accountability partnerships",
+          "Civic engagement projects"
+        ]
+      },
+      "real_world_applications": [
+        "Completing homework without reminders",
+        "Caring for personal belongings",
+        "Following through on commitments",
+        "Contributing to household tasks"
+      ]
+    },
+    {
+      "trait_id": "CHAR-004",
+      "character_trait": "Kindness",
+      "biblical_foundation": "Ephesians 4:32 - 'Be kind and compassionate to one another, forgiving each other, just as in Christ God forgave you.'",
+      "american_values_connection": "Golden Rule in democracy; Charity and volunteerism tradition; Neighbor helping neighbor; American generosity globally",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Kindness caterpillar craft",
+          "Random acts of kindness",
+          "Sharing circle time",
+          "Kind words collection"
+        ],
+        "6-8": [
+          "Kindness challenge week",
+          "Thank you note writing",
+          "Volunteer opportunities",
+          "Kindness ripple effect study"
+        ],
+        "9-10": [
+          "Service learning projects",
+          "Mentoring younger students",
+          "Community needs assessment",
+          "Kindness campaign design"
+        ]
+      }
+    },
+    {
+      "trait_id": "CHAR-005",
+      "character_trait": "Perseverance",
+      "biblical_foundation": "James 1:12 - 'Blessed is the one who perseveres under trial because, having stood the test, that person will receive the crown of life.'",
+      "american_values_connection": "Pioneer spirit; American Dream through hard work; Innovation through failure; Olympic and athletic dedication",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Puzzle completion challenges",
+          "Growth mindset songs",
+          "Try again certificates",
+          "Effort vs. outcome discussion"
+        ],
+        "6-8": [
+          "Goal setting and tracking",
+          "Failure analysis journals",
+          "Inventor biography studies",
+          "Skill development projects"
+        ],
+        "9-10": [
+          "Long-term project management",
+          "Resilience research",
+          "Mentor interviews",
+          "Perseverance portfolios"
+        ]
+      }
+    },
+    {
+      "trait_id": "CHAR-006",
+      "character_trait": "Respect",
+      "biblical_foundation": "1 Peter 2:17 - 'Show proper respect to everyone, love the family of believers, fear God, honor the emperor.'",
+      "american_values_connection": "Respect for law and Constitution; Equal rights and dignity; Respect for diversity; Honor for veterans and elders",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Magic words practice",
+          "Listening ears game",
+          "Respect for property lessons",
+          "Elder appreciation activities"
+        ],
+        "6-8": [
+          "Cultural respect studies",
+          "Authority respect discussions",
+          "Digital citizenship",
+          "Respect contracts"
+        ],
+        "9-10": [
+          "Debate and disagreement skills",
+          "Respect across differences",
+          "Global citizenship",
+          "Respect in leadership"
+        ]
+      }
+    },
+    {
+      "trait_id": "CHAR-007",
+      "character_trait": "Self-Control",
+      "biblical_foundation": "Proverbs 25:28 - 'Like a city whose walls are broken through is a person who lacks self-control.'",
+      "american_values_connection": "Discipline in achieving American Dream; Delayed gratification for success; Law and order; Personal freedom with restraint",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Stop and think signals",
+          "Emotion thermometer",
+          "Waiting games",
+          "Calm down corner"
+        ],
+        "6-8": [
+          "Impulse control exercises",
+          "Screen time management",
+          "Anger management tools",
+          "Habit tracking"
+        ],
+        "9-10": [
+          "Executive function training",
+          "Stress management techniques",
+          "Addiction prevention education",
+          "Leadership and self-regulation"
+        ]
+      }
+    },
+    {
+      "trait_id": "CHAR-008",
+      "character_trait": "Gratitude",
+      "biblical_foundation": "1 Thessalonians 5:18 - 'Give thanks in all circumstances; for this is God's will for you in Christ Jesus.'",
+      "american_values_connection": "Thanksgiving tradition; Appreciation for freedom; Gratitude for sacrifice of veterans; Contentment vs. materialism",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Thank you tree",
+          "Gratitude journals with pictures",
+          "Thanksgiving traditions",
+          "Appreciation circles"
+        ],
+        "6-8": [
+          "Gratitude letters",
+          "Service appreciation projects",
+          "Historical thanksgiving study",
+          "Gratitude experiments"
+        ],
+        "9-10": [
+          "Gratitude research project",
+          "Community appreciation events",
+          "Global perspective on blessings",
+          "Gratitude mentoring"
+        ]
+      }
+    },
+    {
+      "trait_id": "CHAR-009",
+      "character_trait": "Justice/Fairness",
+      "biblical_foundation": "Micah 6:8 - 'Act justly and love mercy and walk humbly with your God.'",
+      "american_values_connection": "Equal justice under law; Civil rights movement; Fair play in sports and life; Democratic principles",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Fair share activities",
+          "Taking turns practice",
+          "Fair vs. unfair sorting",
+          "Justice heroes stories"
+        ],
+        "6-8": [
+          "Mock trials",
+          "Fairness in games analysis",
+          "Historical injustices study",
+          "Classroom constitution"
+        ],
+        "9-10": [
+          "Social justice research",
+          "Debate current issues",
+          "Service for justice",
+          "Policy proposal projects"
+        ]
+      }
+    },
+    {
+      "trait_id": "CHAR-010",
+      "character_trait": "Compassion",
+      "biblical_foundation": "Colossians 3:12 - 'Clothe yourselves with compassion, kindness, humility, gentleness and patience.'",
+      "american_values_connection": "American humanitarian aid; Charity and nonprofit tradition; Care for vulnerable populations; Good Samaritan laws",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Feelings identification",
+          "Comfort giving practice",
+          "Animal care lessons",
+          "Helper stories"
+        ],
+        "6-8": [
+          "Empathy building exercises",
+          "Community needs projects",
+          "Compassion in action plans",
+          "Global awareness activities"
+        ],
+        "9-10": [
+          "Advocacy projects",
+          "Mentoring programs",
+          "Compassionate leadership",
+          "Social entrepreneurship"
+        ]
+      }
+    },
+    {
+      "trait_id": "CHAR-011",
+      "character_trait": "Integrity",
+      "biblical_foundation": "Proverbs 11:3 - 'The integrity of the upright guides them.'",
+      "american_values_connection": "Integrity in public service; Business ethics; Honor codes; Whistleblower protections",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Matching actions to words",
+          "Promise keeping practice",
+          "Integrity stars",
+          "Character consistency games"
+        ],
+        "6-8": [
+          "Integrity scenarios",
+          "Personal value statements",
+          "Integrity in sports study",
+          "Peer pressure resistance"
+        ],
+        "9-10": [
+          "Ethical dilemma analysis",
+          "Integrity in leadership",
+          "Academic integrity projects",
+          "Professional ethics exploration"
+        ]
+      }
+    },
+    {
+      "trait_id": "CHAR-012",
+      "character_trait": "Stewardship",
+      "biblical_foundation": "Genesis 2:15 - 'The Lord God took the man and put him in the Garden of Eden to work it and take care of it.'",
+      "american_values_connection": "Conservation movement; National parks system; Resource management; Environmental responsibility",
+      "age_appropriate_activities": {
+        "3-5": [
+          "Creation care activities",
+          "Recycling games",
+          "Garden projects",
+          "Toy sharing systems"
+        ],
+        "6-8": [
+          "Environmental projects",
+          "Money management",
+          "Time stewardship",
+          "Community garden work"
+        ],
+        "9-10": [
+          "Sustainability research",
+          "Resource conservation plans",
+          "Leadership in stewardship",
+          "Legacy thinking projects"
+        ]
+      }
+    }
+  ],
+  "implementation_framework": {
+    "monthly_focus": {
+      "description": "One character trait per month for deep exploration",
+      "structure": {
+        "week1": "Introduction and biblical foundation",
+        "week2": "American values and historical examples",
+        "week3": "Personal application and practice",
+        "week4": "Community expression and celebration"
+      }
+    },
+    "daily_integration": {
+      "morning": "Character trait devotion or story",
+      "throughout": "Identify trait in other subjects",
+      "evening": "Reflection and application discussion"
+    },
+    "assessment_methods": [
+      "Observation rubrics",
+      "Self-assessment tools",
+      "Peer recognition systems",
+      "Portfolio documentation",
+      "Family feedback forms"
+    ]
+  },
+  "family_engagement": {
+    "parent_resources": [
+      "Discussion guide for each trait",
+      "Family activity suggestions",
+      "Book and media recommendations",
+      "Community service opportunities"
+    ],
+    "family_challenges": [
+      "Weekly trait challenges",
+      "Family service projects",
+      "Character trait celebrations",
+      "Intergenerational interviews"
+    ],
+    "communication_tools": [
+      "Character development newsletters",
+      "Progress celebration emails",
+      "Parent-child discussion prompts",
+      "Family meeting templates"
+    ]
+  },
+  "ai_integration": {
+    "personalized_scenarios": "Generate age-appropriate moral dilemmas based on student's life context",
+    "adaptive_stories": "Create stories featuring student as character demonstrating traits",
+    "progress_tracking": "Monitor character development across multiple indicators",
+    "parent_communication": "Automated updates on character growth and suggestions",
+    "peer_interaction": "Facilitate safe online character discussions with other students"
+  },
+  "cross_curricular_connections": {
+    "literacy": [
+      "Character trait vocabulary",
+      "Biography reading",
+      "Character analysis in literature",
+      "Persuasive writing about values"
+    ],
+    "math": [
+      "Fairness in distribution problems",
+      "Honesty in data representation",
+      "Perseverance in problem-solving",
+      "Stewardship in budget planning"
+    ],
+    "science": [
+      "Integrity in scientific method",
+      "Stewardship of environment",
+      "Courage in exploration",
+      "Perseverance in experimentation"
+    ],
+    "social_studies": [
+      "Character traits in historical figures",
+      "Values in different cultures",
+      "Justice in government systems",
+      "Courage in social movements"
+    ]
+  },
+  "celebration_strategies": {
+    "individual": [
+      "Character trait certificates",
+      "Progress badges",
+      "Special privileges",
+      "Public recognition"
+    ],
+    "classroom": [
+      "Character trait of the week",
+      "Peer nominations",
+      "Character wall displays",
+      "Celebration ceremonies"
+    ],
+    "family": [
+      "Home celebration suggestions",
+      "Family trait awards",
+      "Shared success stories",
+      "Community recognition"
+    ]
+  }
+}
