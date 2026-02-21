@@ -1,0 +1,508 @@
+{
+  "curriculum_name": "Heggerty Phonemic Awareness Scope and Sequence",
+  "total_weeks": 35,
+  "age_groups": ["3-5", "6-8", "9-10"],
+  "daily_structure": {
+    "duration_minutes": 8,
+    "components": [
+      {"name": "Warm-up", "duration": 1, "description": "Review and activate prior knowledge"},
+      {"name": "Skill Introduction", "duration": 3, "description": "Explicit instruction of target skill"},
+      {"name": "Guided Practice", "duration": 3, "description": "Teacher-led practice with scaffolding"},
+      {"name": "Assessment", "duration": 1, "description": "Quick formative assessment"}
+    ]
+  },
+  "weeks": [
+    {
+      "week_number": 1,
+      "age_group": "3-5",
+      "skill_focus": "Rhyming Recognition",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Rhyming songs and fingerplays",
+          "skill": "Introduce rhyming concept with picture cards",
+          "practice": "Identify rhyming pairs from 3 pictures",
+          "assessment": "Thumbs up/down for rhyme recognition"
+        },
+        "day2": {
+          "warmup": "Rhyme time song review",
+          "skill": "Rhyming word discrimination",
+          "practice": "Sort rhyming vs non-rhyming objects",
+          "assessment": "Individual rhyme check with 3 word pairs"
+        },
+        "day3": {
+          "warmup": "Movement rhymes",
+          "skill": "Rhyme completion activities",
+          "practice": "Fill in the rhyme games",
+          "assessment": "Complete 3 nursery rhyme endings"
+        },
+        "day4": {
+          "warmup": "Rhyming puppet play",
+          "skill": "Generate rhymes for simple words",
+          "practice": "Create rhyme families (-at, -an)",
+          "assessment": "Produce 1 rhyme independently"
+        },
+        "day5": {
+          "warmup": "Review week's rhymes",
+          "skill": "Apply rhyming in context",
+          "practice": "Rhyming story creation",
+          "assessment": "Weekly rhyming assessment (5 items)"
+        }
+      },
+      "assessment_checkpoints": {
+        "mastery_criteria": "Correctly identify 3/5 rhyming pairs",
+        "intervention_trigger": "Below 2/5 correct",
+        "extension_activities": "Create original rhyming sentences"
+      },
+      "ai_practice_generators": {
+        "rhyme_generator": "Generate age-appropriate rhyming word pairs using common CVC patterns",
+        "story_prompt": "Create a short rhyming story using target word families",
+        "assessment_items": "Generate 5 rhyme discrimination items with clear rhyme/non-rhyme examples"
+      },
+      "hand_motions": {
+        "rhyme_clap": "Clap hands together when words rhyme",
+        "rhyme_stomp": "Stomp feet for each rhyming word",
+        "rhyme_snap": "Snap fingers to mark rhyme completion"
+      }
+    },
+    {
+      "week_number": 2,
+      "age_group": "3-5",
+      "skill_focus": "Rhyme Production",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Review rhyming recognition",
+          "skill": "Introduce rhyme production",
+          "practice": "Generate rhymes for -at family",
+          "assessment": "Produce 1 rhyme for 'cat'"
+        },
+        "day2": {
+          "warmup": "Rhyming word chains",
+          "skill": "Expand rhyme families",
+          "practice": "Build -an family rhymes",
+          "assessment": "Create 2 rhymes independently"
+        },
+        "day3": {
+          "warmup": "Rhyme and move",
+          "skill": "Nonsense rhyme creation",
+          "practice": "Make silly rhymes",
+          "assessment": "Generate any rhyme for given word"
+        },
+        "day4": {
+          "warmup": "Partner rhyme games",
+          "skill": "Rhyme chains",
+          "practice": "Continue rhyme sequences",
+          "assessment": "Add to rhyme chain successfully"
+        },
+        "day5": {
+          "warmup": "Rhyme celebration",
+          "skill": "Apply rhyming creatively",
+          "practice": "Create rhyming couplets",
+          "assessment": "Weekly production assessment"
+        }
+      }
+    },
+    {
+      "week_number": 3,
+      "age_group": "3-5",
+      "skill_focus": "Syllable Awareness",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Name clapping game",
+          "skill": "Introduce syllable concept",
+          "practice": "Clap syllables in names",
+          "assessment": "Accurately clap own name"
+        },
+        "day2": {
+          "warmup": "Syllable march",
+          "skill": "Count syllables in words",
+          "practice": "Sort 1, 2, 3 syllable pictures",
+          "assessment": "Count syllables in 3 words"
+        },
+        "day3": {
+          "warmup": "Syllable drums",
+          "skill": "Blend syllables",
+          "practice": "Put syllable parts together",
+          "assessment": "Blend 3 compound words"
+        },
+        "day4": {
+          "warmup": "Syllable hopscotch",
+          "skill": "Delete syllables",
+          "practice": "Say words without parts",
+          "assessment": "Delete syllable from 2 words"
+        },
+        "day5": {
+          "warmup": "Syllable review games",
+          "skill": "Apply syllable knowledge",
+          "practice": "Syllable manipulation activities",
+          "assessment": "Weekly syllable assessment"
+        }
+      }
+    },
+    {
+      "week_number": 4,
+      "age_group": "6-8",
+      "skill_focus": "Onset-Rime Blending",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Review syllable blending",
+          "skill": "Introduce onset and rime",
+          "practice": "Blend onset-rime with pictures",
+          "assessment": "Blend 3 onset-rime pairs"
+        },
+        "day2": {
+          "warmup": "Onset-rime song",
+          "skill": "Practice common rimes",
+          "practice": "Build words with -at, -an, -it",
+          "assessment": "Create 4 words with rimes"
+        },
+        "day3": {
+          "warmup": "Rime family review",
+          "skill": "Segment onset from rime",
+          "practice": "Break words into onset-rime",
+          "assessment": "Segment 3 CVC words"
+        },
+        "day4": {
+          "warmup": "Onset substitution",
+          "skill": "Change onsets to make new words",
+          "practice": "Word family transformations",
+          "assessment": "Create 3 new words"
+        },
+        "day5": {
+          "warmup": "Onset-rime challenges",
+          "skill": "Apply onset-rime knowledge",
+          "practice": "Word building activities",
+          "assessment": "Weekly onset-rime assessment"
+        }
+      },
+      "ai_practice_generators": {
+        "onset_generator": "Generate onset-rime blending activities using high-frequency word families",
+        "word_builder": "Create word-building exercises with common rimes",
+        "assessment_items": "Generate onset-rime segmentation and blending assessment items"
+      }
+    },
+    {
+      "week_number": 5,
+      "age_group": "6-8",
+      "skill_focus": "Phoneme Isolation - Initial Sounds",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Sound hunt in classroom",
+          "skill": "Isolate initial consonant sounds",
+          "practice": "Identify first sound in CVC words",
+          "assessment": "Isolate initial sound in 4 words"
+        },
+        "day2": {
+          "warmup": "Beginning sound song",
+          "skill": "Initial sound discrimination",
+          "practice": "Sort pictures by initial sound",
+          "assessment": "Match 4 pictures to initial sounds"
+        },
+        "day3": {
+          "warmup": "Sound stretching",
+          "skill": "Produce initial sounds",
+          "practice": "Generate words with target sound",
+          "assessment": "Create 3 words with given initial"
+        },
+        "day4": {
+          "warmup": "Initial sound chain",
+          "skill": "Initial sound substitution",
+          "practice": "Change first sounds in words",
+          "assessment": "Transform 3 words"
+        },
+        "day5": {
+          "warmup": "Sound celebration",
+          "skill": "Apply initial sound knowledge",
+          "practice": "Initial sound games",
+          "assessment": "Weekly isolation assessment"
+        }
+      }
+    },
+    {
+      "week_number": 10,
+      "age_group": "6-8",
+      "skill_focus": "CVC Blending Mastery",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Sound review with actions",
+          "skill": "Blend 3 phonemes into CVC words",
+          "practice": "Blend with letter cards",
+          "assessment": "Blend 5 CVC words accurately"
+        },
+        "day2": {
+          "warmup": "Blending robot game",
+          "skill": "Continuous blending practice",
+          "practice": "Blend words in context",
+          "assessment": "Read 5 CVC words fluently"
+        },
+        "day3": {
+          "warmup": "Speed blending",
+          "skill": "Blend with different vowels",
+          "practice": "Vowel discrimination in blending",
+          "assessment": "Blend CVC with all short vowels"
+        },
+        "day4": {
+          "warmup": "Blending relay",
+          "skill": "Blend in sentences",
+          "practice": "Read CVC sentences",
+          "assessment": "Read 3 CVC sentences"
+        },
+        "day5": {
+          "warmup": "Blending celebration",
+          "skill": "Apply blending skills",
+          "practice": "CVC story reading",
+          "assessment": "Weekly blending assessment"
+        }
+      }
+    },
+    {
+      "week_number": 15,
+      "age_group": "6-8",
+      "skill_focus": "Phoneme Segmentation",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Sound counting with fingers",
+          "skill": "Segment CVC into phonemes",
+          "practice": "Use sound boxes",
+          "assessment": "Segment 4 CVC words"
+        },
+        "day2": {
+          "warmup": "Segmentation train",
+          "skill": "Segment CVCC words",
+          "practice": "Four-phoneme segmentation",
+          "assessment": "Segment 3 CVCC words"
+        },
+        "day3": {
+          "warmup": "Sound stretching",
+          "skill": "Segment with digraphs",
+          "practice": "Identify digraph as one sound",
+          "assessment": "Segment words with sh, ch, th"
+        },
+        "day4": {
+          "warmup": "Segmentation hopscotch",
+          "skill": "Segment multisyllabic words",
+          "practice": "Break compound words",
+          "assessment": "Segment 3 compound words"
+        },
+        "day5": {
+          "warmup": "Segmentation review",
+          "skill": "Apply segmentation",
+          "practice": "Spelling with segmentation",
+          "assessment": "Weekly segmentation test"
+        }
+      }
+    },
+    {
+      "week_number": 20,
+      "age_group": "6-8",
+      "skill_focus": "Phoneme Addition",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Sound addition warm-up",
+          "skill": "Add initial phonemes",
+          "practice": "Add sounds to make words",
+          "assessment": "Create 4 words by adding initial"
+        },
+        "day2": {
+          "warmup": "Final sound addition",
+          "skill": "Add ending phonemes",
+          "practice": "Make new words with endings",
+          "assessment": "Add endings to 4 words"
+        },
+        "day3": {
+          "warmup": "Medial sound focus",
+          "skill": "Add medial vowels",
+          "practice": "Complete words with vowels",
+          "assessment": "Insert vowels in 4 words"
+        },
+        "day4": {
+          "warmup": "Blend addition",
+          "skill": "Add blends to words",
+          "practice": "Create blend words",
+          "assessment": "Form 3 words with blends"
+        },
+        "day5": {
+          "warmup": "Addition challenges",
+          "skill": "Apply addition skills",
+          "practice": "Word creation games",
+          "assessment": "Weekly addition assessment"
+        }
+      }
+    },
+    {
+      "week_number": 25,
+      "age_group": "9-10",
+      "skill_focus": "Phoneme Deletion",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Deletion introduction",
+          "skill": "Delete initial phonemes",
+          "practice": "Remove first sounds",
+          "assessment": "Delete initial from 5 words"
+        },
+        "day2": {
+          "warmup": "Final deletion practice",
+          "skill": "Delete final phonemes",
+          "practice": "Remove ending sounds",
+          "assessment": "Delete finals from 5 words"
+        },
+        "day3": {
+          "warmup": "Medial deletion",
+          "skill": "Delete medial sounds",
+          "practice": "Remove middle sounds",
+          "assessment": "Delete medial from 3 words"
+        },
+        "day4": {
+          "warmup": "Blend deletion",
+          "skill": "Delete from blends",
+          "practice": "Simplify blend words",
+          "assessment": "Delete from 4 blends"
+        },
+        "day5": {
+          "warmup": "Deletion mastery",
+          "skill": "Complex deletions",
+          "practice": "Multi-phoneme deletion",
+          "assessment": "Weekly deletion assessment"
+        }
+      }
+    },
+    {
+      "week_number": 30,
+      "age_group": "9-10",
+      "skill_focus": "Phoneme Substitution",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Substitution introduction",
+          "skill": "Substitute initial phonemes",
+          "practice": "Change first sounds",
+          "assessment": "Substitute initials in 5 words"
+        },
+        "day2": {
+          "warmup": "Final substitution",
+          "skill": "Substitute final phonemes",
+          "practice": "Change ending sounds",
+          "assessment": "Substitute finals in 5 words"
+        },
+        "day3": {
+          "warmup": "Vowel substitution",
+          "skill": "Substitute medial vowels",
+          "practice": "Change vowel sounds",
+          "assessment": "Substitute vowels in 4 words"
+        },
+        "day4": {
+          "warmup": "Complex substitution",
+          "skill": "Multiple substitutions",
+          "practice": "Chain substitution activities",
+          "assessment": "Complete substitution chain"
+        },
+        "day5": {
+          "warmup": "Substitution mastery",
+          "skill": "Apply all substitution skills",
+          "practice": "Word transformation games",
+          "assessment": "Weekly substitution test"
+        }
+      }
+    },
+    {
+      "week_number": 35,
+      "age_group": "9-10",
+      "skill_focus": "Comprehensive Phonemic Mastery",
+      "daily_activities": {
+        "day1": {
+          "warmup": "Review all skills",
+          "skill": "Integrated phonemic tasks",
+          "practice": "Complex manipulation",
+          "assessment": "Multi-skill assessment"
+        },
+        "day2": {
+          "warmup": "Speed challenges",
+          "skill": "Fluency building",
+          "practice": "Rapid skill application",
+          "assessment": "Fluency measurement"
+        },
+        "day3": {
+          "warmup": "Application in reading",
+          "skill": "Transfer to text",
+          "practice": "Read complex words",
+          "assessment": "Reading application test"
+        },
+        "day4": {
+          "warmup": "Application in writing",
+          "skill": "Transfer to spelling",
+          "practice": "Spell complex words",
+          "assessment": "Spelling application test"
+        },
+        "day5": {
+          "warmup": "Celebration of mastery",
+          "skill": "Showcase skills",
+          "practice": "Peer teaching",
+          "assessment": "Final comprehensive assessment"
+        }
+      }
+    }
+  ],
+  "assessment_progression": {
+    "weeks_1_5": {
+      "focus": "Rhyming and syllable awareness",
+      "mastery_target": 0.70,
+      "intervention_threshold": 0.50
+    },
+    "weeks_6_10": {
+      "focus": "Onset-rime and initial sound isolation",
+      "mastery_target": 0.75,
+      "intervention_threshold": 0.55
+    },
+    "weeks_11_15": {
+      "focus": "CVC blending and segmentation",
+      "mastery_target": 0.80,
+      "intervention_threshold": 0.60
+    },
+    "weeks_16_20": {
+      "focus": "Complex blending and phoneme addition",
+      "mastery_target": 0.75,
+      "intervention_threshold": 0.55
+    },
+    "weeks_21_25": {
+      "focus": "Phoneme deletion",
+      "mastery_target": 0.70,
+      "intervention_threshold": 0.50
+    },
+    "weeks_26_30": {
+      "focus": "Phoneme substitution",
+      "mastery_target": 0.70,
+      "intervention_threshold": 0.50
+    },
+    "weeks_31_35": {
+      "focus": "Comprehensive application",
+      "mastery_target": 0.85,
+      "intervention_threshold": 0.65
+    }
+  },
+  "differentiation_strategies": {
+    "below_level": {
+      "strategies": [
+        "Reduce number of items",
+        "Provide visual supports",
+        "Use concrete manipulatives",
+        "Increase wait time",
+        "Offer choice in response mode"
+      ]
+    },
+    "on_level": {
+      "strategies": [
+        "Follow standard progression",
+        "Maintain pace",
+        "Provide peer collaboration",
+        "Include extension when ready"
+      ]
+    },
+    "above_level": {
+      "strategies": [
+        "Accelerate through mastered skills",
+        "Add complexity to tasks",
+        "Include multisyllabic words",
+        "Integrate with reading/writing",
+        "Peer tutoring opportunities"
+      ]
+    }
+  }
+}

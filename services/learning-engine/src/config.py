@@ -8,6 +8,10 @@ class Settings(BaseSettings):
     project_id: str = "prodigee-488119"
     region: str = "us-east1"
 
+    # JWT (shared secret with auth service for local token decoding)
+    jwt_secret: str = "dev-secret-change-in-production"
+    jwt_algorithm: str = "HS256"
+
     # Vertex AI
     vertex_ai_model: str = "gemini-2.0-flash"
 
