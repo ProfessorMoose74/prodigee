@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     rate_limit_requests: int = 100
     rate_limit_window_seconds: int = 60
 
+    # Proxy
+    request_timeout_seconds: float = 30.0
+
     model_config = {"env_prefix": "GATEWAY_"}
 
 
