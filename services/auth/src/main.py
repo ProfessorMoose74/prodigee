@@ -4,16 +4,34 @@ Handles parent/child authentication, role-based access control,
 session management, and COPPA-compliant child account flows.
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from slowapi import Limiter
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
 from src.config import settings
+from src.routes import parent, child, session
+
+limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI(
     title="Prodigee Auth Service",
-    version="0.1.0",
+    version="0.2.0",
     docs_url="/docs" if settings.environment == "development" else None,
 )
+
+app.state.limiter = limiter
+
+
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Too many requests. Please try again later."},
+    )
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -23,37 +41,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Wire up route modules
+app.include_router(parent.router)
+app.include_router(child.router)
+app.include_router(session.router)
+
 
 @app.get("/health")
 async def health():
     return {"status": "healthy", "service": "auth"}
-
-
-# --- Parent Auth ---
-
-
-@app.post("/parent/register")
-async def parent_register():
-    """Register a new parent account."""
-    return {"status": "not_implemented"}
-
-
-@app.post("/parent/login")
-async def parent_login():
-    """Parent login — returns JWT token."""
-    return {"status": "not_implemented"}
-
-
-# --- Child Auth (COPPA-compliant) ---
-
-
-@app.post("/child/login")
-async def child_login():
-    """Child login — requires parent token, COPPA-compliant."""
-    return {"status": "not_implemented"}
-
-
-@app.post("/logout")
-async def logout():
-    """Logout with token invalidation."""
-    return {"status": "not_implemented"}
