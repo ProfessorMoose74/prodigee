@@ -117,5 +117,19 @@ data/cache/
 assets/cache/
 assets/downloads/
 
+# === Docker ===
+docker-compose.override.yml
+
+# === GCP / Terraform ===
+*.tfstate
+*.tfstate.backup
+.terraform/
+*.tfvars
+!*.tfvars.example
+
+# === Service Account Keys ===
+**/service-account.json
+**/credentials.json
+
 # === Claude Code ===
 .claude/

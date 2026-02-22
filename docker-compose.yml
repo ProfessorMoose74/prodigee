@@ -1,0 +1,64 @@
+# Local development orchestration
+# Mirrors Cloud Run service topology for local testing
+#
+# Usage: docker compose up --build
+# Docs:  Each service at http://localhost:<port>/docs
+
+services:
+  gateway:
+    build: ./services/gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - GATEWAY_ENVIRONMENT=development
+      - GATEWAY_AUTH_SERVICE_URL=http://auth:8081
+      - GATEWAY_LEARNING_SERVICE_URL=http://learning-engine:8082
+      - GATEWAY_ANALYTICS_SERVICE_URL=http://analytics:8083
+      - GATEWAY_AR_VR_SERVICE_URL=http://ar-vr:8084
+    depends_on:
+      - auth
+      - learning-engine
+      - analytics
+
+  auth:
+    build: ./services/auth
+    ports:
+      - "8081:8081"
+    environment:
+      - AUTH_ENVIRONMENT=development
+      - AUTH_JWT_SECRET=dev-secret-change-in-production
+      - GOOGLE_CLOUD_PROJECT=prodigee-488119
+      - FIRESTORE_EMULATOR_HOST=firestore-emulator:8086
+
+  learning-engine:
+    build: ./services/learning-engine
+    ports:
+      - "8082:8082"
+    environment:
+      - LEARNING_ENVIRONMENT=development
+      - GOOGLE_CLOUD_PROJECT=prodigee-488119
+      - FIRESTORE_EMULATOR_HOST=firestore-emulator:8086
+
+  analytics:
+    build: ./services/analytics
+    ports:
+      - "8083:8083"
+    environment:
+      - ANALYTICS_ENVIRONMENT=development
+      - GOOGLE_CLOUD_PROJECT=prodigee-488119
+      - FIRESTORE_EMULATOR_HOST=firestore-emulator:8086
+
+  ar-vr:
+    build: ./services/ar-vr
+    ports:
+      - "8084:8084"
+    environment:
+      - ARVR_ENVIRONMENT=development
+      - GOOGLE_CLOUD_PROJECT=prodigee-488119
+
+  # Local Firestore emulator for development
+  firestore-emulator:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
+    command: gcloud emulators firestore start --host-port=0.0.0.0:8086
+    ports:
+      - "8086:8086"

@@ -1,0 +1,163 @@
+# Cloud Build CI/CD — builds and deploys all services to Cloud Run
+# Triggered on push to main branch
+#
+# Each service is built and deployed independently.
+# Uses Artifact Registry for container images.
+
+substitutions:
+  _REGION: us-east1
+  _PROJECT_ID: prodigee-488119
+  _REPO: prodigee
+
+steps:
+  # --- Build all service images in parallel ---
+
+  - id: build-gateway
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:$COMMIT_SHA
+      - -t
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:latest
+      - ./services/gateway
+    waitFor: ["-"]
+
+  - id: build-auth
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/auth:$COMMIT_SHA
+      - -t
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/auth:latest
+      - ./services/auth
+    waitFor: ["-"]
+
+  - id: build-learning-engine
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/learning-engine:$COMMIT_SHA
+      - -t
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/learning-engine:latest
+      - ./services/learning-engine
+    waitFor: ["-"]
+
+  - id: build-analytics
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/analytics:$COMMIT_SHA
+      - -t
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/analytics:latest
+      - ./services/analytics
+    waitFor: ["-"]
+
+  - id: build-ar-vr
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/ar-vr:$COMMIT_SHA
+      - -t
+      - ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/ar-vr:latest
+      - ./services/ar-vr
+    waitFor: ["-"]
+
+  # --- Push all images ---
+
+  - id: push-images
+    name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:$COMMIT_SHA
+        docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:latest
+        docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/auth:$COMMIT_SHA
+        docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/auth:latest
+        docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/learning-engine:$COMMIT_SHA
+        docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/learning-engine:latest
+        docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/analytics:$COMMIT_SHA
+        docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/analytics:latest
+        docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/ar-vr:$COMMIT_SHA
+        docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/ar-vr:latest
+    waitFor:
+      - build-gateway
+      - build-auth
+      - build-learning-engine
+      - build-analytics
+      - build-ar-vr
+
+  # --- Deploy to Cloud Run ---
+
+  - id: deploy-gateway
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - prodigee-gateway
+      - --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:$COMMIT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --allow-unauthenticated
+    waitFor: [push-images]
+
+  - id: deploy-auth
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - prodigee-auth
+      - --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/auth:$COMMIT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --no-allow-unauthenticated
+    waitFor: [push-images]
+
+  - id: deploy-learning-engine
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - prodigee-learning-engine
+      - --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/learning-engine:$COMMIT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --no-allow-unauthenticated
+    waitFor: [push-images]
+
+  - id: deploy-analytics
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - prodigee-analytics
+      - --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/analytics:$COMMIT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --no-allow-unauthenticated
+    waitFor: [push-images]
+
+  - id: deploy-ar-vr
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - prodigee-ar-vr
+      - --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/ar-vr:$COMMIT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --no-allow-unauthenticated
+    waitFor: [push-images]
+
+options:
+  logging: CLOUD_LOGGING_ONLY

@@ -1,0 +1,562 @@
+{
+  "curriculum_name": "Elemental Genius STEM Integration Framework",
+  "age_groups": ["3-5", "6-8", "9-10"],
+  "integration_philosophy": "Hands-on discovery with Christian worldview connections",
+  "projects": [
+    {
+      "project_id": "STEM-F-001",
+      "project_name": "God's Amazing Water Cycle",
+      "age_appropriate_for": ["3-5"],
+      "duration_days": 5,
+      "science_concepts": [
+        "States of matter (solid, liquid, gas)",
+        "Evaporation and condensation",
+        "Weather patterns",
+        "Water conservation"
+      ],
+      "technology_integration": [
+        "Digital weather tracking app",
+        "Time-lapse photography of ice melting",
+        "Virtual rain gauge measurements"
+      ],
+      "engineering_challenges": [
+        "Build a rain collector",
+        "Design a water filter with coffee filters",
+        "Create a miniature greenhouse"
+      ],
+      "math_applications": [
+        "Count raindrops in collection",
+        "Measure water amounts",
+        "Graph daily weather",
+        "Compare temperatures"
+      ],
+      "christian_worldview_connections": [
+        "God's provision of water for life",
+        "Stewardship of water resources",
+        "Noah and the flood story",
+        "Jesus calming the storm"
+      ],
+      "materials_list": [
+        "Clear containers",
+        "Ice cubes",
+        "Food coloring",
+        "Cotton balls",
+        "Plastic wrap",
+        "Thermometer",
+        "Measuring cups"
+      ],
+      "daily_activities": {
+        "day1": {
+          "title": "Water in Our World",
+          "activities": [
+            "Explore water in different forms",
+            "Ice cube melting observations",
+            "Thank God for water prayer"
+          ]
+        },
+        "day2": {
+          "title": "Evaporation Discovery",
+          "activities": [
+            "Set up evaporation experiments",
+            "Measure and mark water levels",
+            "Draw the water cycle"
+          ]
+        },
+        "day3": {
+          "title": "Making Clouds",
+          "activities": [
+            "Create cloud in a jar",
+            "Observe condensation",
+            "Weather watching and recording"
+          ]
+        },
+        "day4": {
+          "title": "Rain Collection",
+          "activities": [
+            "Build rain gauge",
+            "Predict rainfall amounts",
+            "Water conservation discussion"
+          ]
+        },
+        "day5": {
+          "title": "Water Cycle Model",
+          "activities": [
+            "Create complete water cycle model",
+            "Present to family",
+            "Celebrate learning with water play"
+          ]
+        }
+      },
+      "assessment_rubric": {
+        "understanding": {
+          "exceeds": "Explains all water cycle stages accurately",
+          "meets": "Identifies main water cycle components",
+          "developing": "Recognizes water changes form"
+        },
+        "application": {
+          "exceeds": "Predicts weather based on observations",
+          "meets": "Connects observations to concepts",
+          "developing": "Makes basic observations"
+        },
+        "values_integration": {
+          "exceeds": "Articulates stewardship responsibilities",
+          "meets": "Understands water as God's gift",
+          "developing": "Shows appreciation for water"
+        }
+      },
+      "ai_scaffolding_prompts": {
+        "introduction": "Generate age-appropriate story about Droplet's journey through water cycle",
+        "exploration": "Create guided questions for water observations",
+        "assessment": "Develop verbal assessment questions about water cycle understanding",
+        "extension": "Suggest home experiments for continued learning"
+      }
+    },
+    {
+      "project_id": "STEM-F-002",
+      "project_name": "Creation's Colors and Light",
+      "age_appropriate_for": ["3-5"],
+      "duration_days": 5,
+      "science_concepts": [
+        "Light and shadows",
+        "Color mixing",
+        "Rainbow formation",
+        "Reflection and absorption"
+      ],
+      "technology_integration": [
+        "Digital color mixing app",
+        "Camera for shadow documentation",
+        "Flashlight explorations"
+      ],
+      "engineering_challenges": [
+        "Build a shadow puppet theater",
+        "Create a periscope",
+        "Design a rainbow maker"
+      ],
+      "math_applications": [
+        "Count colors in rainbow",
+        "Measure shadow lengths",
+        "Sort objects by color",
+        "Pattern making with colors"
+      ],
+      "christian_worldview_connections": [
+        "God's promise in the rainbow (Noah)",
+        "Jesus as the Light of the World",
+        "Creation of light on Day 1",
+        "God's creativity in nature's colors"
+      ],
+      "materials_list": [
+        "Prisms",
+        "Flashlights",
+        "Mirrors",
+        "Food coloring",
+        "White paper",
+        "Colored cellophane",
+        "Paint supplies"
+      ],
+      "assessment_rubric": {
+        "scientific_understanding": {
+          "exceeds": "Explains how rainbows form",
+          "meets": "Identifies light creates shadows",
+          "developing": "Names rainbow colors"
+        }
+      }
+    },
+    {
+      "project_id": "STEM-P-001",
+      "project_name": "Building Bridges of Faith",
+      "age_appropriate_for": ["6-8"],
+      "duration_days": 7,
+      "science_concepts": [
+        "Forces and motion",
+        "Load distribution",
+        "Material properties",
+        "Structural stability"
+      ],
+      "technology_integration": [
+        "Bridge design software (kid-friendly)",
+        "Video analysis of bridge testing",
+        "Research famous bridges online"
+      ],
+      "engineering_challenges": [
+        "Design and build 3 different bridge types",
+        "Test weight capacity",
+        "Improve designs based on failures"
+      ],
+      "math_applications": [
+        "Measure bridge dimensions",
+        "Calculate weight held",
+        "Graph strength vs design",
+        "Geometry in bridge shapes"
+      ],
+      "christian_worldview_connections": [
+        "Jesus as our bridge to God",
+        "Building connections with others",
+        "Nehemiah rebuilding walls",
+        "Wise and foolish builders parable"
+      ],
+      "materials_list": [
+        "Popsicle sticks",
+        "Glue",
+        "String",
+        "Paper",
+        "Cardboard",
+        "Small weights",
+        "Ruler",
+        "Graph paper"
+      ],
+      "daily_activities": {
+        "day1": {
+          "title": "Introduction to Bridges",
+          "activities": [
+            "Explore types of bridges",
+            "Identify bridges in community",
+            "Draw bridge designs"
+          ]
+        },
+        "day2": {
+          "title": "Beam Bridge Building",
+          "activities": [
+            "Build simple beam bridge",
+            "Test with pennies",
+            "Record weight held"
+          ]
+        },
+        "day3": {
+          "title": "Arch Bridge Engineering",
+          "activities": [
+            "Construct arch bridge",
+            "Compare to beam bridge",
+            "Discuss strength differences"
+          ]
+        },
+        "day4": {
+          "title": "Suspension Bridge Challenge",
+          "activities": [
+            "Build suspension bridge",
+            "Add cables and towers",
+            "Test maximum load"
+          ]
+        },
+        "day5": {
+          "title": "Bridge Improvements",
+          "activities": [
+            "Analyze failures",
+            "Redesign weakest bridge",
+            "Retest and document"
+          ]
+        },
+        "day6": {
+          "title": "Mathematical Analysis",
+          "activities": [
+            "Create data charts",
+            "Graph results",
+            "Calculate efficiency"
+          ]
+        },
+        "day7": {
+          "title": "Presentation and Reflection",
+          "activities": [
+            "Present to family",
+            "Discuss spiritual connections",
+            "Plan community bridge visit"
+          ]
+        }
+      },
+      "assessment_rubric": {
+        "engineering_process": {
+          "exceeds": "Iterates design based on testing data",
+          "meets": "Follows design process steps",
+          "developing": "Builds basic bridge structure"
+        },
+        "mathematical_thinking": {
+          "exceeds": "Uses math to predict performance",
+          "meets": "Accurately measures and records",
+          "developing": "Counts and compares basic data"
+        },
+        "integration": {
+          "exceeds": "Connects engineering to faith deeply",
+          "meets": "Identifies spiritual parallels",
+          "developing": "Participates in discussions"
+        }
+      }
+    },
+    {
+      "project_id": "STEM-P-002",
+      "project_name": "Garden of Eden Ecosystems",
+      "age_appropriate_for": ["6-8"],
+      "duration_days": 10,
+      "science_concepts": [
+        "Plant life cycles",
+        "Photosynthesis basics",
+        "Ecosystems and habitats",
+        "Food chains",
+        "Environmental factors"
+      ],
+      "technology_integration": [
+        "Plant growth tracking app",
+        "Time-lapse photography",
+        "Digital microscope observations",
+        "Weather monitoring tools"
+      ],
+      "engineering_challenges": [
+        "Design mini greenhouse",
+        "Build irrigation system",
+        "Create compost bin",
+        "Construct plant growth chambers"
+      ],
+      "math_applications": [
+        "Measure plant growth daily",
+        "Calculate growth rates",
+        "Graph environmental factors",
+        "Compute water needs",
+        "Track germination percentages"
+      ],
+      "christian_worldview_connections": [
+        "Garden of Eden as perfect ecosystem",
+        "Parable of the sower",
+        "God's provision through plants",
+        "Stewardship of creation",
+        "Seeds of faith growing"
+      ],
+      "materials_list": [
+        "Seeds (beans, radish, grass)",
+        "Soil and containers",
+        "Plastic bottles",
+        "Measuring tools",
+        "Graph paper",
+        "Magnifying glass",
+        "Plant food",
+        "Labels"
+      ],
+      "assessment_rubric": {
+        "scientific_method": {
+          "exceeds": "Designs controlled experiments",
+          "meets": "Makes and tests predictions",
+          "developing": "Observes and records data"
+        },
+        "ecosystem_understanding": {
+          "exceeds": "Explains interdependencies",
+          "meets": "Identifies ecosystem components",
+          "developing": "Recognizes plants need care"
+        }
+      }
+    },
+    {
+      "project_id": "STEM-I-001",
+      "project_name": "Solar System: God's Cosmic Design",
+      "age_appropriate_for": ["9-10"],
+      "duration_days": 14,
+      "science_concepts": [
+        "Planetary characteristics",
+        "Orbital mechanics",
+        "Gravity and mass",
+        "Scale of universe",
+        "Space exploration history"
+      ],
+      "technology_integration": [
+        "Stellarium software exploration",
+        "NASA website research",
+        "Virtual planetarium visits",
+        "Coding orbital simulations"
+      ],
+      "engineering_challenges": [
+        "Build scale model solar system",
+        "Design Mars rover prototype",
+        "Create rocket launchers",
+        "Construct sundial"
+      ],
+      "math_applications": [
+        "Calculate planetary distances",
+        "Scale conversions",
+        "Orbital period ratios",
+        "Speed and velocity",
+        "Data analysis from NASA"
+      ],
+      "christian_worldview_connections": [
+        "Psalms declaring heavens' glory",
+        "God's order in creation",
+        "Star of Bethlehem",
+        "Abraham's descendants like stars",
+        "God's infinite nature"
+      ],
+      "materials_list": [
+        "Styrofoam balls",
+        "Paint and brushes",
+        "String for orbits",
+        "Flashlight (sun)",
+        "Calculator",
+        "Research materials",
+        "Building supplies",
+        "Telescope (if available)"
+      ],
+      "weekly_breakdown": {
+        "week1": {
+          "focus": "Inner planets and sun",
+          "activities": [
+            "Research planet characteristics",
+            "Calculate relative sizes",
+            "Build inner planet models",
+            "Explore day/night cycles",
+            "Create planet fact cards"
+          ]
+        },
+        "week2": {
+          "focus": "Outer planets and exploration",
+          "activities": [
+            "Study gas giants",
+            "Design space probe",
+            "Calculate travel times",
+            "Present solar system model",
+            "Stargazing evening"
+          ]
+        }
+      },
+      "assessment_rubric": {
+        "content_knowledge": {
+          "exceeds": "Explains complex interactions",
+          "meets": "Accurately describes all planets",
+          "developing": "Names planets in order"
+        },
+        "mathematical_application": {
+          "exceeds": "Solves multi-step space problems",
+          "meets": "Calculates basic measurements",
+          "developing": "Uses simple comparisons"
+        },
+        "research_skills": {
+          "exceeds": "Synthesizes multiple sources",
+          "meets": "Finds relevant information",
+          "developing": "Uses provided resources"
+        }
+      }
+    },
+    {
+      "project_id": "STEM-I-002",
+      "project_name": "American Innovation: From Telegraph to Technology",
+      "age_appropriate_for": ["9-10"],
+      "duration_days": 14,
+      "science_concepts": [
+        "Electricity and circuits",
+        "Communication technology evolution",
+        "Electromagnetic spectrum",
+        "Digital vs analog signals"
+      ],
+      "technology_integration": [
+        "Build simple circuits online",
+        "Code Morse code translator",
+        "Create digital presentations",
+        "Research patent databases"
+      ],
+      "engineering_challenges": [
+        "Build working telegraph",
+        "Create simple radio",
+        "Design communication device",
+        "Construct circuit boards"
+      ],
+      "math_applications": [
+        "Calculate electrical values",
+        "Measure signal speeds",
+        "Graph technology timeline",
+        "Compute efficiency improvements"
+      ],
+      "christian_worldview_connections": [
+        "Truth in communication",
+        "Using technology for good",
+        "Spreading Gospel through technology",
+        "Wisdom in innovation"
+      ],
+      "american_values_integration": [
+        "American inventors' stories",
+        "Innovation and entrepreneurship",
+        "Patent system and property rights",
+        "Technology in democracy"
+      ],
+      "materials_list": [
+        "Wire and batteries",
+        "LEDs and buzzers",
+        "Electromagnets supplies",
+        "Circuit components",
+        "Historical timelines",
+        "Biography resources"
+      ],
+      "assessment_rubric": {
+        "innovation_understanding": {
+          "exceeds": "Proposes original improvements",
+          "meets": "Explains how inventions work",
+          "developing": "Identifies key inventions"
+        },
+        "historical_connection": {
+          "exceeds": "Analyzes impact on society",
+          "meets": "Describes inventor contributions",
+          "developing": "Names important inventors"
+        }
+      }
+    }
+  ],
+  "cross_curricular_connections": {
+    "literacy": [
+      "Science journals and lab reports",
+      "Research and presentation skills",
+      "Technical vocabulary development",
+      "Reading comprehension of STEM texts"
+    ],
+    "social_studies": [
+      "History of scientific discoveries",
+      "Geographic impacts on ecosystems",
+      "Cultural approaches to problem-solving",
+      "American innovation heritage"
+    ],
+    "arts": [
+      "Technical drawing and design",
+      "Data visualization",
+      "Creative problem presentation",
+      "Nature sketching and observation"
+    ],
+    "character_development": [
+      "Perseverance through failures",
+      "Teamwork in group projects",
+      "Ethical use of technology",
+      "Environmental stewardship"
+    ]
+  },
+  "assessment_strategies": {
+    "formative": [
+      "Daily observation logs",
+      "Exit tickets",
+      "Peer evaluations",
+      "Self-reflection journals"
+    ],
+    "summative": [
+      "Project presentations",
+      "Engineering portfolios",
+      "Problem-solving demonstrations",
+      "Research reports"
+    ],
+    "authentic": [
+      "Real-world problem solving",
+      "Community service projects",
+      "Science fair entries",
+      "Maker faire participation"
+    ]
+  },
+  "parent_involvement": {
+    "roles": [
+      "Lab assistant and safety supervisor",
+      "Material gathering coordinator",
+      "Documentation photographer",
+      "Presentation audience member"
+    ],
+    "support_strategies": [
+      "Daily conversation prompts provided",
+      "Extension activity suggestions",
+      "Safety guidelines and protocols",
+      "Assessment rubric understanding"
+    ]
+  },
+  "ai_enhancement_features": {
+    "adaptive_difficulty": "Projects adjust complexity based on student performance",
+    "virtual_experiments": "Simulations for dangerous or expensive experiments",
+    "personalized_feedback": "Real-time guidance during problem-solving",
+    "progress_tracking": "Detailed analytics on STEM skill development",
+    "resource_curation": "AI-selected supplementary materials based on interests"
+  }
+}
