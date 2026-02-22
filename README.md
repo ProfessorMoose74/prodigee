@@ -5,7 +5,7 @@
 An AI-powered adaptive learning platform for children (K-12) with emphasis on early learners and special needs education. Built as cloud-native containerized microservices on Google Cloud Platform.
 
 **Owner:** Elemental Genius LLC
-**Status:** Active development — microservice rewrite in progress
+**Status:** Active development — microservices + web client built, pre-deployment
 
 ---
 
@@ -16,9 +16,9 @@ Prodigee follows a containerized microservice architecture deployed on **GCP Clo
 ```
                     ┌─────────────────────────┐
                     │       Clients           │
+                    │  Web (Next.js 14)       │
                     │  Android (React Native) │
                     │  Desktop (Electron)     │
-                    │  VR (OpenXR/Unity)      │
                     └───────────┬─────────────┘
                                 │
                     ┌───────────▼─────────────┐
@@ -56,21 +56,29 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for the full technical specification.
 
 ```
 prodigee/
-├── services/                    # Microservices (the rewrite)
+├── services/                    # Microservices
 │   ├── gateway/                 #   API Gateway — routing & rate limiting
 │   ├── auth/                    #   Authentication — JWT, COPPA, sessions
 │   ├── learning-engine/         #   Curriculum delivery, Vertex AI, Speech
 │   ├── analytics/               #   Progress tracking, dashboards, reporting
 │   └── ar-vr/                   #   AR/VR services (post-launch)
 │
+├── clients/                     # Frontend applications
+│   └── web/                     #   Next.js 14 + TypeScript + Tailwind CSS
+│       └── src/app/             #     Pages: dashboard, activity, progress, auth
+│
+├── tests/                       # Integration tests
+│   └── test_integration.py      #   8-phase E2E flow against docker-compose stack
+│
 ├── shared/                      # Shared libraries
 │   ├── models/                  #   Firestore document schemas (Pydantic)
 │   ├── utils/                   #   Common utilities
 │   └── config/                  #   Shared configuration
 │
-├── infra/                       # Infrastructure as code
-│   ├── terraform/               #   GCP resource definitions
-│   └── scripts/                 #   Deployment & utility scripts
+├── infra/                       # Infrastructure & deployment
+│   ├── setup-secrets.sh         #   GCP Secret Manager setup
+│   ├── setup-domain.sh          #   Cloud Run domain mapping
+│   └── terraform/               #   GCP resource definitions (planned)
 │
 ├── eg-curriculum/               # Curriculum data (JSON) — reusable as-is
 ├── eg-backend-code/             # [Legacy] Flask monolith — reference only
@@ -157,15 +165,17 @@ docker compose up --build
 
 ## Tech Stack
 
-- **Runtime:** Python 3.12 + FastAPI + Uvicorn
+- **Backend:** Python 3.12 + FastAPI + Uvicorn
+- **Frontend:** Next.js 14 (App Router) + TypeScript + Tailwind CSS
 - **Data:** Google Cloud Firestore
 - **AI:** Vertex AI (adaptive learning, content generation)
 - **Speech:** Cloud Speech-to-Text (pronunciation assessment)
 - **Translation:** Cloud Translation API (30+ languages)
 - **Auth:** JWT with COPPA-compliant child sessions
+- **Secrets:** GCP Secret Manager
 - **Containers:** Docker → Cloud Run
 - **CI/CD:** Cloud Build → Artifact Registry → Cloud Run
-- **IaC:** Terraform (planned)
+- **Testing:** pytest + pytest-asyncio (unit) + httpx E2E integration
 
 ---
 

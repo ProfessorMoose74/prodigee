@@ -1,7 +1,7 @@
 # Prodigee — TODO List
 
-**Last updated:** February 21, 2026
-**Context:** All 4 active microservices (auth, learning-engine, analytics, gateway) are implemented, Docker-built, smoke-tested, and pushed to main. AR/VR is parked. See `CLAUDE.md` for full architecture context.
+**Last updated:** February 22, 2026
+**Context:** All 4 microservices implemented + tested. Next.js web client complete with auth flows, learning dashboard, activity view (voice), and progress reports. GCP Secret Manager configured. Production CORS and domain mapping scripts ready. First Cloud Run deployment is the next major milestone. See `CLAUDE.md` for architecture context.
 
 ---
 
@@ -45,7 +45,7 @@
 - [x] Create `jwt-secret` setup script (`infra/setup-secrets.sh`) — auto-generates secret, grants Cloud Build + Cloud Run access
 - [x] Update Cloud Run service configs to mount secret as env var (cloudbuild.yaml `--set-secrets`)
 - [x] All services that decode JWTs reference the same `jwt-secret:latest` from Secret Manager
-- [ ] Run `infra/setup-secrets.sh` on server (requires `gcloud auth login`)
+- [x] Run Secret Manager setup — jwt-secret created (version 1), Cloud Build + Compute SA granted secretAccessor
 
 ### 2.2 Docker group fix
 - [ ] Add `moose` user to `docker` group (`sudo usermod -aG docker moose`) so `sg docker -c` workaround is no longer needed
@@ -64,7 +64,7 @@
 ### 2.5 CORS configuration for production
 - [x] Update `cors_origins` in all services — auto-switches to production domains when `ENVIRONMENT=production`
 - [x] Domain mapping script (`infra/setup-domain.sh`) — maps getprodigee.com/.net to gateway Cloud Run service
-- [ ] Run `infra/setup-domain.sh` on server + configure DNS records at registrar
+- [ ] Run `infra/setup-domain.sh` after gateway is deployed + configure DNS records at registrar
 - [ ] Verify SSL certificate provisioning after DNS propagation
 
 ---
@@ -178,3 +178,4 @@
 - [x] Secret Manager setup script (`infra/setup-secrets.sh`) — creates jwt-secret, grants IAM to Cloud Build + Compute SA
 - [x] Domain mapping script (`infra/setup-domain.sh`) — maps getprodigee.com/.net to Cloud Run gateway
 - [x] Production CORS — all 4 services auto-switch origins to getprodigee.com/.net when ENVIRONMENT=production
+- [x] GCP Secret Manager — jwt-secret created (v1), Cloud Build + Compute SA granted secretAccessor
