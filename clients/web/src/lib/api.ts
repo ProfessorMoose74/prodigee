@@ -154,6 +154,47 @@ export interface CurriculumWeek {
   daily_structure: Record<string, unknown>;
 }
 
+export interface ActivityDetail {
+  skill_name: string;
+  skill_info: {
+    weeks: number[];
+    difficulty: string;
+    description: string;
+    prerequisites: string[];
+  };
+  week_number: number;
+  activities: Record<string, unknown>;
+  child_progress: number;
+  mastery_level: string;
+}
+
+export interface ActivityResult {
+  message: string;
+  progress_gained: number;
+  new_progress: number;
+  mastery_level: string;
+  stars_earned: number;
+  current_week: number;
+  week_advanced: boolean;
+}
+
+export interface VoiceProcessResult {
+  success: boolean;
+  transcript: string;
+  confidence: number;
+  accuracy_score: number;
+  feedback: string;
+  source: string;
+}
+
+export interface VoiceSynthResult {
+  success: boolean;
+  audio_content: string;
+  duration_estimate: number;
+  message: string;
+  source: string;
+}
+
 export const learning = {
   dashboard(token: string) {
     return request<DashboardData>("/learning/child/dashboard", {}, token);
@@ -163,22 +204,36 @@ export const learning = {
     return request<CurriculumWeek>(`/learning/curriculum/week/${weekNumber}`);
   },
 
+  getActivity(token: string, activityType: string) {
+    return request<ActivityDetail>(`/learning/child/activity/${activityType}`, {}, token);
+  },
+
   completeActivity(
     token: string,
     activityType: string,
     data: { accuracy: number; duration: number; stars_earned: number },
   ) {
-    return request<{
-      message: string;
-      progress_gained: number;
-      new_progress: number;
-      mastery_level: string;
-      stars_earned: number;
-      current_week: number;
-      week_advanced: boolean;
-    }>(`/learning/child/activity/${activityType}/complete`, {
+    return request<ActivityResult>(`/learning/child/activity/${activityType}/complete`, {
       method: "POST",
       body: JSON.stringify(data),
+    }, token);
+  },
+
+  voiceProcess(token: string, data: {
+    audio_data: string;
+    expected_response: string;
+    activity_type?: string;
+  }) {
+    return request<VoiceProcessResult>("/learning/voice/process", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }, token);
+  },
+
+  voiceSynthesize(token: string, text: string) {
+    return request<VoiceSynthResult>("/learning/voice/synthesize", {
+      method: "POST",
+      body: JSON.stringify({ text, speaking_rate: 0.85 }),
     }, token);
   },
 };
@@ -229,9 +284,74 @@ export interface ParentDashboard {
   }>;
 }
 
+export interface PhonemicProgress {
+  child_id: string;
+  skills: Array<{
+    skill: string;
+    accuracy: number;
+    mastery_level: string;
+    attempts: number;
+    correct: number;
+    last_practiced: string | null;
+  }>;
+  overall_accuracy: number;
+  mastery_distribution: Record<string, number>;
+}
+
+export interface SessionRecord {
+  id: string;
+  session_type: string;
+  activity_type: string;
+  accuracy: number;
+  stars_earned: number;
+  engagement_score: number;
+  duration_minutes: number;
+  completed: boolean;
+  completed_at: string | null;
+}
+
+export interface SessionsResponse {
+  child_id: string;
+  total: number;
+  limit: number;
+  offset: number;
+  sessions: SessionRecord[];
+}
+
+export interface WeeklySummary {
+  week_number: number;
+  sessions_count: number;
+  avg_accuracy: number;
+  skills_practiced: string[];
+  skill_scores: Record<string, number>;
+  total_stars: number;
+}
+
+export interface AssessmentsResponse {
+  child_id: string;
+  weekly_summaries: WeeklySummary[];
+}
+
 export const analytics = {
   childProgress(token: string, childId: string) {
     return request<ChildProgress>(`/analytics/child/${childId}/progress`, {}, token);
+  },
+
+  phonemicProgress(token: string, childId: string) {
+    return request<PhonemicProgress>(`/analytics/child/${childId}/phonemic-progress`, {}, token);
+  },
+
+  sessions(token: string, childId: string, params?: { limit?: number; offset?: number; activity_type?: string }) {
+    const query = new URLSearchParams();
+    if (params?.limit) query.set("limit", String(params.limit));
+    if (params?.offset) query.set("offset", String(params.offset));
+    if (params?.activity_type) query.set("activity_type", params.activity_type);
+    const qs = query.toString();
+    return request<SessionsResponse>(`/analytics/child/${childId}/sessions${qs ? `?${qs}` : ""}`, {}, token);
+  },
+
+  assessments(token: string, childId: string) {
+    return request<AssessmentsResponse>(`/analytics/child/${childId}/assessments`, {}, token);
   },
 
   parentDashboard(token: string, parentId: string) {

@@ -239,6 +239,16 @@ export default function DashboardPage() {
                   </span>
                 ))}
               </div>
+
+              {/* View Progress link */}
+              <div className="mt-3 pt-3 border-t border-gray-100">
+                <button
+                  onClick={() => router.push(`/progress?child=${child.child_id}`)}
+                  className="text-sm text-prodigee-600 font-medium hover:underline"
+                >
+                  View Full Progress Report &rarr;
+                </button>
+              </div>
             </div>
           ))}
         </div>

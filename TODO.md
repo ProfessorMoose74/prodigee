@@ -75,9 +75,9 @@
 - [x] Parent registration/login flow (`/login`, `/register`)
 - [x] Child login — parent-proxy COPPA flow (`/child-login`)
 - [x] Learning dashboard with curriculum navigation (`/child-dashboard`)
-- [ ] Activity view with voice interaction
+- [x] Activity view with voice interaction (`/activity?skill=...`)
 - [x] Parent analytics dashboard (`/dashboard`)
-- [ ] Progress reports and skill breakdowns
+- [x] Progress reports and skill breakdowns (`/progress?child=...`)
 
 ### 3.2 Cloud Run deployment
 - [ ] First deployment of all services to Cloud Run
@@ -170,3 +170,6 @@
 - [x] Auth context (`src/lib/auth-context.tsx`) — parent/child token management with localStorage persistence
 - [x] Parent flows — registration, login, dashboard with children overview and add-child form
 - [x] Child flows — COPPA parent-proxy login, learning dashboard with skills grid, practice simulation
+- [x] Activity page (`/activity`) — intro/practice/voice/result phases, voice recording with MediaRecorder, TTS playback
+- [x] Progress reports (`/progress`) — 4-tab layout: overview stats, per-skill breakdowns, session history with pagination, weekly summaries
+- [x] Navigation wiring — dashboard links to progress reports, child dashboard links to activity pages

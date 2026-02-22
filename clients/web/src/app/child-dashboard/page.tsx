@@ -135,13 +135,10 @@ export default function ChildDashboardPage() {
           </div>
           <p className="text-gray-600 text-sm mb-3">{dashboard.recommendation.reason}</p>
           <button
-            onClick={() => handlePractice(dashboard.recommendation.recommended_skill)}
-            disabled={practicing !== null}
-            className="px-5 py-2.5 rounded-lg bg-prodigee-600 text-white font-medium hover:bg-prodigee-700 disabled:opacity-50 transition-colors"
+            onClick={() => router.push(`/activity?skill=${dashboard.recommendation.recommended_skill}`)}
+            className="px-5 py-2.5 rounded-lg bg-prodigee-600 text-white font-medium hover:bg-prodigee-700 transition-colors"
           >
-            {practicing === dashboard.recommendation.recommended_skill
-              ? "Practicing..."
-              : "Start Practice"}
+            Start Practice
           </button>
         </div>
 
@@ -181,11 +178,11 @@ export default function ChildDashboardPage() {
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-500">{Math.round(accuracy)}%</span>
                     <button
-                      onClick={() => handlePractice(skill)}
+                      onClick={() => router.push(`/activity?skill=${skill}`)}
                       disabled={practicing !== null}
                       className="px-3 py-1 rounded-lg bg-prodigee-100 text-prodigee-700 text-sm font-medium hover:bg-prodigee-200 disabled:opacity-50 transition-colors"
                     >
-                      {practicing === skill ? "..." : "Practice"}
+                      Practice
                     </button>
                   </div>
                 </div>
