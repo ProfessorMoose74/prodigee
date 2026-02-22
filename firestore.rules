@@ -1,0 +1,113 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Helper functions ---
+
+    // Check if the request is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if the authenticated user matches the given ID
+    function isUser(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Check if the request comes from a service account (Cloud Run backend)
+    function isServiceAccount() {
+      return isAuthenticated()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.matches(".*@.*\\.iam\\.gserviceaccount\\.com");
+    }
+
+    // --- Parents collection ---
+    // Written by: Auth service
+    // Read by: Analytics service, Auth service
+    match /parents/{parentId} {
+      // Service accounts can read/write (auth service creates, analytics reads)
+      allow read, write: if isServiceAccount();
+
+      // Parents can read their own profile (if using Firebase Auth client-side)
+      allow read: if isUser(parentId);
+
+      // Deny all other access
+      allow read, write: if false;
+    }
+
+    // --- Children collection ---
+    // Written by: Auth service
+    // Read by: Learning Engine, Analytics
+    match /children/{childId} {
+      // Service accounts have full access
+      allow read, write: if isServiceAccount();
+
+      // Parents can read their own children
+      allow read: if isAuthenticated()
+        && resource.data.parent_id == request.auth.uid;
+
+      // Children can read their own profile
+      allow read: if isUser(childId);
+    }
+
+    // --- Token blacklist ---
+    // Written by: Auth service (on logout)
+    // Read by: All services (JWT validation)
+    // NEVER client-accessible — service accounts only
+    match /token_blacklist/{tokenId} {
+      allow read, write: if isServiceAccount();
+    }
+
+    // --- Phonemic progress ---
+    // Written by: Learning Engine
+    // Read by: Analytics, Learning Engine
+    match /phonemic_progress/{progressId} {
+      // Service accounts can read/write
+      allow read, write: if isServiceAccount();
+
+      // Children can read their own progress
+      allow read: if isAuthenticated()
+        && resource.data.child_id == request.auth.uid;
+
+      // Parents can read their children's progress
+      allow read: if isAuthenticated()
+        && exists(/databases/$(database)/documents/children/$(resource.data.child_id))
+        && get(/databases/$(database)/documents/children/$(resource.data.child_id)).data.parent_id == request.auth.uid;
+    }
+
+    // --- Learning sessions ---
+    // Written by: Learning Engine
+    // Read by: Analytics
+    match /learning_sessions/{sessionId} {
+      allow read, write: if isServiceAccount();
+
+      allow read: if isAuthenticated()
+        && resource.data.child_id == request.auth.uid;
+
+      allow read: if isAuthenticated()
+        && exists(/databases/$(database)/documents/children/$(resource.data.child_id))
+        && get(/databases/$(database)/documents/children/$(resource.data.child_id)).data.parent_id == request.auth.uid;
+    }
+
+    // --- Voice interactions ---
+    // Written by: Learning Engine
+    // Read by: Analytics
+    // COPPA: contains text transcripts only, no raw audio
+    match /voice_interactions/{interactionId} {
+      allow read, write: if isServiceAccount();
+
+      allow read: if isAuthenticated()
+        && resource.data.child_id == request.auth.uid;
+
+      allow read: if isAuthenticated()
+        && exists(/databases/$(database)/documents/children/$(resource.data.child_id))
+        && get(/databases/$(database)/documents/children/$(resource.data.child_id)).data.parent_id == request.auth.uid;
+    }
+
+    // --- Deny everything else ---
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

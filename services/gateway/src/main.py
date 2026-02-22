@@ -6,6 +6,7 @@ Handles rate limiting, request tracing, and aggregated health checks.
 
 import asyncio
 import logging
+import time
 import uuid
 
 import httpx
@@ -17,7 +18,9 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
 from src.config import settings
+from src.logging_config import setup_logging, request_id_var
 
+setup_logging()
 logger = logging.getLogger(__name__)
 
 limiter = Limiter(key_func=get_remote_address)
@@ -37,6 +40,23 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
         status_code=429,
         content={"detail": "Too many requests. Please try again later."},
     )
+
+
+@app.middleware("http")
+async def request_logging_middleware(request: Request, call_next):
+    """Log all gateway requests with timing."""
+    rid = request.headers.get("x-request-id", str(uuid.uuid4()))
+    request_id_var.set(rid)
+
+    start = time.perf_counter()
+    response: Response = await call_next(request)
+    elapsed_ms = round((time.perf_counter() - start) * 1000, 1)
+
+    logger.info(
+        "%s %s -> %s (%.1fms)",
+        request.method, request.url.path, response.status_code, elapsed_ms,
+    )
+    return response
 
 
 app.add_middleware(
