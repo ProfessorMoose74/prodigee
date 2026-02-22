@@ -70,13 +70,13 @@
 ## Priority 3 — Feature Completion
 
 ### 3.1 Frontend client
-- [ ] Decide on framework (React Native for mobile? Next.js for web? Both?)
-- [ ] Scaffold client app in `clients/` directory
-- [ ] Parent registration/login flow
-- [ ] Child login (parent-proxy COPPA flow)
-- [ ] Learning dashboard with curriculum navigation
+- [x] Decide on framework — Next.js 14 (App Router) + TypeScript + Tailwind CSS for web
+- [x] Scaffold client app in `clients/web/` directory
+- [x] Parent registration/login flow (`/login`, `/register`)
+- [x] Child login — parent-proxy COPPA flow (`/child-login`)
+- [x] Learning dashboard with curriculum navigation (`/child-dashboard`)
 - [ ] Activity view with voice interaction
-- [ ] Parent analytics dashboard
+- [x] Parent analytics dashboard (`/dashboard`)
 - [ ] Progress reports and skill breakdowns
 
 ### 3.2 Cloud Run deployment
@@ -165,3 +165,8 @@
 - [x] Firestore security rules (`firestore.rules`) — service-account-only writes, parent/child read scoping
 - [x] `firebase.json` for deploying Firestore rules
 - [x] Enhanced `cloudbuild.yaml` — production env vars, Secret Manager JWT, resource limits, IAM, Firestore rules deploy
+- [x] Next.js 14 web client (`clients/web/`) — TypeScript, Tailwind CSS, App Router
+- [x] API client library (`src/lib/api.ts`) — typed wrappers for auth, learning, analytics endpoints
+- [x] Auth context (`src/lib/auth-context.tsx`) — parent/child token management with localStorage persistence
+- [x] Parent flows — registration, login, dashboard with children overview and add-child form
+- [x] Child flows — COPPA parent-proxy login, learning dashboard with skills grid, practice simulation
