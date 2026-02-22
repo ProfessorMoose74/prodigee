@@ -42,16 +42,17 @@
 ## Priority 2 — Production Readiness
 
 ### 2.1 Secret management
-- [ ] Create `jwt-secret` in GCP Secret Manager (`gcloud secrets create jwt-secret --data-file=- <<< "your-secret"`)
+- [x] Create `jwt-secret` setup script (`infra/setup-secrets.sh`) — auto-generates secret, grants Cloud Build + Cloud Run access
 - [x] Update Cloud Run service configs to mount secret as env var (cloudbuild.yaml `--set-secrets`)
 - [x] All services that decode JWTs reference the same `jwt-secret:latest` from Secret Manager
+- [ ] Run `infra/setup-secrets.sh` on server (requires `gcloud auth login`)
 
 ### 2.2 Docker group fix
 - [ ] Add `moose` user to `docker` group (`sudo usermod -aG docker moose`) so `sg docker -c` workaround is no longer needed
 
 ### 2.3 Environment configuration
 - [x] Create `.env.example` with all required environment variables per service
-- [ ] Document production vs development config differences
+- [x] Document production vs development config differences (auto-CORS, .env.example comments, setup scripts)
 - [ ] Set up staging environment in GCP
 
 ### 2.4 Logging & observability
@@ -61,9 +62,10 @@
 - [ ] Error alerting (Cloud Monitoring)
 
 ### 2.5 CORS configuration for production
-- [ ] Update `cors_origins` in all services for production domains
-- [ ] Configure `getprodigee.com` / `getprodigee.net` DNS
-- [ ] Set up Cloud Run custom domain mapping
+- [x] Update `cors_origins` in all services — auto-switches to production domains when `ENVIRONMENT=production`
+- [x] Domain mapping script (`infra/setup-domain.sh`) — maps getprodigee.com/.net to gateway Cloud Run service
+- [ ] Run `infra/setup-domain.sh` on server + configure DNS records at registrar
+- [ ] Verify SSL certificate provisioning after DNS propagation
 
 ---
 
@@ -173,3 +175,6 @@
 - [x] Activity page (`/activity`) — intro/practice/voice/result phases, voice recording with MediaRecorder, TTS playback
 - [x] Progress reports (`/progress`) — 4-tab layout: overview stats, per-skill breakdowns, session history with pagination, weekly summaries
 - [x] Navigation wiring — dashboard links to progress reports, child dashboard links to activity pages
+- [x] Secret Manager setup script (`infra/setup-secrets.sh`) — creates jwt-secret, grants IAM to Cloud Build + Compute SA
+- [x] Domain mapping script (`infra/setup-domain.sh`) — maps getprodigee.com/.net to Cloud Run gateway
+- [x] Production CORS — all 4 services auto-switch origins to getprodigee.com/.net when ENVIRONMENT=production

@@ -2,6 +2,14 @@
 
 from pydantic_settings import BaseSettings
 
+_DEFAULT_CORS = ["http://localhost:3000", "http://localhost:5173"]
+_PRODUCTION_CORS = [
+    "https://getprodigee.com",
+    "https://www.getprodigee.com",
+    "https://getprodigee.net",
+    "https://www.getprodigee.net",
+]
+
 
 class Settings(BaseSettings):
     environment: str = "development"
@@ -12,9 +20,16 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
 
     # CORS
-    cors_origins: list[str] = ["http://localhost:3000", "http://localhost:5173"]
+    cors_origins: list[str] = _DEFAULT_CORS
 
     model_config = {"env_prefix": "ANALYTICS_"}
 
 
-settings = Settings()
+def _build_settings() -> Settings:
+    s = Settings()
+    if s.environment == "production":
+        s.cors_origins = _PRODUCTION_CORS
+    return s
+
+
+settings = _build_settings()
