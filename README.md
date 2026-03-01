@@ -5,7 +5,7 @@
 An AI-powered adaptive learning platform for children (K-12) with emphasis on early learners and special needs education. Built as cloud-native containerized microservices on Google Cloud Platform.
 
 **Owner:** Elemental Genius LLC
-**Status:** Active development — microservices + web client built, pre-deployment
+**Status:** Live on GCP — all services deployed to Cloud Run, frontend on Firebase Hosting
 
 ---
 
@@ -14,24 +14,23 @@ An AI-powered adaptive learning platform for children (K-12) with emphasis on ea
 Prodigee follows a containerized microservice architecture deployed on **GCP Cloud Run**. AI, translation, speech, and vision capabilities are externalized to GCP APIs — no self-hosted inference.
 
 ```
-                    ┌─────────────────────────┐
-                    │       Clients           │
-                    │  Web (Next.js 14)       │
-                    │  Android (React Native) │
-                    │  Desktop (Electron)     │
-                    └───────────┬─────────────┘
-                                │
-                    ┌───────────▼─────────────┐
-                    │    API Gateway (:8080)   │
-                    │  Routing, rate limiting  │
-                    └───┬────┬────┬────┬──────┘
+   Users → Firebase Hosting (prodigee-488119.web.app)
+            │
+            ├── /** → Static Next.js SPA (CDN-cached)
+            │
+            └── /api/** ──────────────────────────────────┐
+                                                          │
+                    ┌─────────────────────────────────────▼┐
+                    │    API Gateway (Cloud Run)            │
+                    │  Routing, rate limiting, ID tokens    │
+                    └───┬────┬────┬────┬───────────────────┘
                         │    │    │    │
           ┌─────────────┘    │    │    └──────────────┐
           │                  │    │                    │
    ┌──────▼──────┐  ┌───────▼──┐ ┌▼───────────┐  ┌───▼────┐
-   │ Auth (:8081)│  │ Learning │ │ Analytics  │  │ AR/VR  │
-   │ JWT, COPPA  │  │ Engine   │ │ Progress   │  │(:8084) │
-   │ Sessions    │  │ (:8082)  │ │ (:8083)    │  │ Parked │
+   │ Auth        │  │ Learning │ │ Analytics  │  │ AR/VR  │
+   │ JWT, COPPA  │  │ Engine   │ │ Progress   │  │ Parked │
+   │ Sessions    │  │ Curriculum│ │ Dashboards │  │        │
    └─────────────┘  └──────────┘ └────────────┘  └────────┘
                          │
               ┌──────────┴──────────┐
@@ -42,10 +41,12 @@ Prodigee follows a containerized microservice architecture deployed on **GCP Clo
               │  Cloud Vision       │
               └─────────────────────┘
 
+   Hosting: Firebase Hosting (CDN + Cloud Run rewrites)
+   Compute: Cloud Run (us-east1)
    Data: Firestore (nam5 multi-region US)
    Images: Artifact Registry (us-east1)
    Secrets: Secret Manager
-   Storage: Cloud Storage
+   Auth: Service-to-service via metadata server ID tokens
 ```
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the full technical specification.
@@ -90,10 +91,12 @@ prodigee/
 ├── eg-institute/                # [Legacy] Admin portal stub
 ├── _archive/                    # Archived previous implementations
 │
+├── .firebaserc                  # Firebase project alias
+├── firebase.json                # Firebase Hosting + Firestore rules config
 ├── ARCHITECTURE.md              # Master technical architecture spec
 ├── DEVELOPMENT.md               # Local development setup guide
 ├── docker-compose.yml           # Local dev orchestration
-└── cloudbuild.yaml              # GCP Cloud Build CI/CD pipeline
+└── cloudbuild.yaml              # GCP Cloud Build CI/CD pipeline (12 steps)
 ```
 
 ### Legacy vs. New
@@ -151,15 +154,32 @@ docker compose up --build
 
 ---
 
-## GCP Project
+## Live Environment
 
 | Property | Value |
 |----------|-------|
+| **Public URL** | `https://prodigee-488119.web.app` |
 | Project ID | `prodigee-488119` |
 | Project Number | `446166630230` |
 | Region | `us-east1` |
 | Firestore | `nam5` (multi-region US) |
 | Artifact Registry | `us-east1-docker.pkg.dev/prodigee-488119/prodigee/` |
+| Firebase Hosting | Serves static SPA + proxies `/api/**` to Cloud Run |
+| CI/CD | Push to `main` → Cloud Build → deploy all services + hosting |
+
+### Cloud Run Services
+
+| Service | Cloud Run Name | Status |
+|---------|---------------|--------|
+| Gateway | `prodigee-gateway` | Deployed (--no-invoker-iam-check for Firebase Hosting) |
+| Auth | `prodigee-auth` | Deployed |
+| Learning Engine | `prodigee-learning-engine` | Deployed |
+| Analytics | `prodigee-analytics` | Deployed |
+| AR/VR | `prodigee-ar-vr` | Deployed (stub) |
+
+### Service-to-Service Auth
+
+The gateway fetches Google ID tokens from the Cloud Run metadata server to authenticate with backend services. User JWTs are forwarded via the `X-Forwarded-Authorization` header. Backend services check this header first, falling back to `Authorization` for direct access.
 
 ---
 
@@ -173,8 +193,9 @@ docker compose up --build
 - **Translation:** Cloud Translation API (30+ languages)
 - **Auth:** JWT with COPPA-compliant child sessions
 - **Secrets:** GCP Secret Manager
+- **Hosting:** Firebase Hosting (CDN + Cloud Run rewrites)
 - **Containers:** Docker → Cloud Run
-- **CI/CD:** Cloud Build → Artifact Registry → Cloud Run
+- **CI/CD:** Cloud Build → Artifact Registry → Cloud Run + Firebase Hosting
 - **Testing:** pytest + pytest-asyncio (unit) + httpx E2E integration
 
 ---

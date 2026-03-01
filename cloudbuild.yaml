@@ -184,7 +184,9 @@ steps:
       - --set-env-vars=ARVR_ENVIRONMENT=production
     waitFor: [push-images]
 
-  # Gateway deploys AFTER backends so it can discover their Cloud Run URLs
+  # Gateway deploys AFTER backends so it can discover their Cloud Run URLs.
+  # --no-invoker-iam-check: Firebase Hosting rewrites don't inject auth tokens,
+  # so gateway must accept unauthenticated ingress. App-level JWT auth still applies.
   - id: deploy-gateway
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: bash
@@ -206,6 +208,7 @@ steps:
           --region=${_REGION} \
           --platform=managed \
           --allow-unauthenticated \
+          --no-invoker-iam-check \
           --memory=256Mi \
           --cpu=1 \
           --min-instances=0 \

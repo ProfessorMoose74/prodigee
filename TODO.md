@@ -1,7 +1,7 @@
 # Prodigee — TODO List
 
-**Last updated:** February 22, 2026
-**Context:** All 4 microservices implemented + tested. Next.js web client complete with auth flows, learning dashboard, activity view (voice), and progress reports. GCP Secret Manager configured. Production CORS and domain mapping scripts ready. First Cloud Run deployment is the next major milestone. See `CLAUDE.md` for architecture context.
+**Last updated:** March 1, 2026
+**Context:** All 5 microservices deployed to Cloud Run. Firebase Hosting live at `https://prodigee-488119.web.app` — serves static Next.js frontend and proxies `/api/**` to Cloud Run gateway. Service-to-service auth via metadata server ID tokens. CI/CD pipeline (12 steps) deploys everything on push to main. Next priorities: custom domain setup, GCP API integration testing, and auth enhancements. See `CLAUDE.md` for architecture context.
 
 ---
 
@@ -64,7 +64,7 @@
 ### 2.5 CORS configuration for production
 - [x] Update `cors_origins` in all services — auto-switches to production domains when `ENVIRONMENT=production`
 - [x] Domain mapping script (`infra/setup-domain.sh`) — maps getprodigee.com/.net to gateway Cloud Run service
-- [ ] Run `infra/setup-domain.sh` after gateway is deployed + configure DNS records at registrar
+- [ ] Configure custom domains (getprodigee.com, getprodigee.net) on Firebase Hosting + DNS records at registrar
 - [ ] Verify SSL certificate provisioning after DNS propagation
 
 ---
@@ -82,10 +82,14 @@
 - [x] Progress reports and skill breakdowns (`/progress?child=...`)
 
 ### 3.2 Cloud Run deployment
-- [ ] First deployment of all services to Cloud Run
+- [x] First deployment of all services to Cloud Run
 - [x] Verify `cloudbuild.yaml` pipeline — env vars, secrets, resource limits, Firestore rules deploy
 - [x] Set up Firestore security rules for production
 - [x] Configure Cloud Run IAM (gateway `--allow-unauthenticated`, backends `--no-allow-unauthenticated`)
+- [x] Service-to-service auth — gateway fetches ID tokens from metadata server, forwards user JWTs via X-Forwarded-Authorization
+- [x] Firebase Hosting — serves static Next.js SPA, proxies `/api/**` to Cloud Run gateway
+- [x] `--no-invoker-iam-check` on gateway for Firebase Hosting rewrites (org policy blocks allUsers)
+- [x] End-to-end verified: registration, login, health checks all work through `prodigee-488119.web.app`
 - [ ] Set up Artifact Registry cleanup policy
 
 ### 3.3 GCP API integration testing
@@ -179,3 +183,12 @@
 - [x] Domain mapping script (`infra/setup-domain.sh`) — maps getprodigee.com/.net to Cloud Run gateway
 - [x] Production CORS — all 4 services auto-switch origins to getprodigee.com/.net when ENVIRONMENT=production
 - [x] GCP Secret Manager — jwt-secret created (v1), Cloud Build + Compute SA granted secretAccessor
+- [x] Cloud Run deployment — all 5 services deployed (gateway, auth, learning-engine, analytics, ar-vr)
+- [x] Service-to-service auth — gateway injects ID tokens from metadata server, forwards user JWTs via `X-Forwarded-Authorization`
+- [x] Firebase Hosting — static Next.js SPA at `prodigee-488119.web.app`, `/api/**` rewrites to Cloud Run gateway
+- [x] `--no-invoker-iam-check` on gateway — Firebase Hosting rewrites bypass Cloud Run IAM (org policy blocks allUsers)
+- [x] `.firebaserc` — project alias for Firebase CLI
+- [x] `firebase.json` — Hosting config with Cloud Run rewrites, SPA catch-all, caching headers
+- [x] Next.js static export — `output: 'export'`, `trailingSlash: true`, Suspense boundaries for useSearchParams
+- [x] Cloud Build CI/CD — 12-step pipeline: build 5 images → push → deploy 5 services → build/deploy web client to Firebase Hosting
+- [x] End-to-end public access verified — registration, login, health checks through Firebase Hosting
