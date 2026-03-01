@@ -104,9 +104,10 @@ steps:
 
   # --- Deploy to Cloud Run ---
   # Backend services deploy first (in parallel), then gateway discovers their URLs
-  # Backend services: allow-unauthenticated (JWT validated at app layer)
-  # TODO: Upgrade to --no-allow-unauthenticated + identity token injection in gateway
-  # JWT secret mounted from Secret Manager for all JWT-aware services
+  # Org policy blocks allUsers binding, so all services require Google IAM auth.
+  # Gateway injects identity tokens (via metadata server) for service-to-service calls.
+  # User JWTs are forwarded via X-Forwarded-Authorization header.
+  # JWT secret mounted from Secret Manager for all JWT-aware services.
 
   - id: deploy-auth
     name: gcr.io/google.com/cloudsdktool/cloud-sdk

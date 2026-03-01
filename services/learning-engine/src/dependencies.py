@@ -5,7 +5,7 @@ Learning engine dependencies — Firestore client, JWT auth, GCP client factorie
 import logging
 
 import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from google.cloud import firestore_v1
 
@@ -61,17 +61,27 @@ bearer_scheme = HTTPBearer(auto_error=False)
 
 
 async def get_current_user(
+    request: Request,
     credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
     db: firestore_v1.AsyncClient = Depends(get_db),
 ) -> dict:
-    """Validate JWT and return decoded claims. Works for both parent and child."""
-    if credentials is None:
+    """Validate JWT and return decoded claims. Works for both parent and child.
+
+    Checks X-Forwarded-Authorization first (set by gateway when using
+    Cloud Run IAM auth), falls back to standard Authorization header.
+    """
+    forwarded = request.headers.get("x-forwarded-authorization", "")
+    if forwarded.lower().startswith("bearer "):
+        token = forwarded[7:]
+    elif credentials is not None:
+        token = credentials.credentials
+    else:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Missing authentication token",
         )
 
-    payload = decode_token(credentials.credentials)
+    payload = decode_token(token)
 
     if await is_token_blacklisted(payload["jti"], db):
         raise HTTPException(

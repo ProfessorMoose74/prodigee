@@ -19,6 +19,7 @@ from slowapi.util import get_remote_address
 
 from src.config import settings
 from src.logging_config import setup_logging, request_id_var
+from src.service_auth import get_id_token
 
 setup_logging()
 logger = logging.getLogger(__name__)
@@ -120,7 +121,13 @@ async def services_health():
 
     async def check_service(name: str, base_url: str):
         try:
-            resp = await _client.get(f"{base_url}/health", timeout=5.0)
+            check_headers = {}
+            id_token = await get_id_token(base_url)
+            if id_token:
+                check_headers["authorization"] = f"Bearer {id_token}"
+            resp = await _client.get(
+                f"{base_url}/health", headers=check_headers, timeout=5.0,
+            )
             results[name] = "healthy" if resp.status_code == 200 else "unhealthy"
         except Exception:
             results[name] = "unreachable"
@@ -171,15 +178,27 @@ async def proxy(service: str, path: str, request: Request):
     if request.url.query:
         backend_url = f"{backend_url}?{request.url.query}"
 
-    # Forward headers (strip hop-by-hop)
+    # Forward headers (strip hop-by-hop, handle auth separately)
     headers = {}
+    original_auth = None
     for key, value in request.headers.items():
-        if key.lower() not in HOP_BY_HOP_HEADERS:
+        if key.lower() == "authorization":
+            original_auth = value
+        elif key.lower() not in HOP_BY_HOP_HEADERS:
             headers[key] = value
 
     # Inject request tracing ID
     request_id = str(uuid.uuid4())
     headers["x-request-id"] = request_id
+
+    # Inject Cloud Run identity token; forward user JWT as X-Forwarded-Authorization
+    id_token = await get_id_token(base_url)
+    if id_token:
+        headers["authorization"] = f"Bearer {id_token}"
+        if original_auth:
+            headers["x-forwarded-authorization"] = original_auth
+    elif original_auth:
+        headers["authorization"] = original_auth
 
     # Read request body
     body = await request.body()
