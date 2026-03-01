@@ -8,6 +8,8 @@ _PRODUCTION_CORS = [
     "https://www.getprodigee.com",
     "https://getprodigee.net",
     "https://www.getprodigee.net",
+    "https://prodigee-488119.web.app",
+    "https://prodigee-488119.firebaseapp.com",
 ]
 
 

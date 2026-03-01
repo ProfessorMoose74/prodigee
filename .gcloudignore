@@ -9,8 +9,7 @@ library-backend-data/
 library-indexer/
 _archive/
 
-# Ignore development/local files
-clients/
+# Ignore development/local files (clients/ kept for Firebase Hosting deploy)
 tests/
 shared/
 .git/

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { Suspense, useState, useEffect, useRef, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import {
@@ -49,6 +49,14 @@ const SKILL_PROMPTS: Record<string, string[]> = {
 };
 
 export default function ActivityPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <ActivityPageInner />
+    </Suspense>
+  );
+}
+
+function ActivityPageInner() {
   const { childToken, childUser, isLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();

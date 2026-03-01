@@ -39,6 +39,10 @@ env/
 venv/
 ENV/
 
+# === Next.js ===
+clients/web/.next/
+clients/web/out/
+
 # === Build Artifacts ===
 build/
 dist/

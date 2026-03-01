@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Proxy API calls to the gateway during development
+  output: "export",
+  trailingSlash: true,
+
+  // Proxy API calls to the gateway during local development
+  // (ignored when output is "export", but used by `next dev`)
   async rewrites() {
     return [
       {

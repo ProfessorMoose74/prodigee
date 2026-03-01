@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import {
@@ -23,6 +23,14 @@ const MASTERY_COLORS: Record<string, { bg: string; text: string; bar: string }> 
 type Tab = "overview" | "skills" | "sessions" | "weekly";
 
 export default function ProgressPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <ProgressPageInner />
+    </Suspense>
+  );
+}
+
+function ProgressPageInner() {
   const { parentToken, isLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
