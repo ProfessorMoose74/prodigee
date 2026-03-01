@@ -102,38 +102,10 @@ steps:
   # TODO: Restore automated deploy once Firebase CLI auth is configured in Cloud Build
 
   # --- Deploy to Cloud Run ---
-  # Gateway: public-facing, routes to internal services
+  # Backend services deploy first (in parallel), then gateway discovers their URLs
   # Backend services: allow-unauthenticated (JWT validated at app layer)
   # TODO: Upgrade to --no-allow-unauthenticated + identity token injection in gateway
   # JWT secret mounted from Secret Manager for all JWT-aware services
-
-  - id: deploy-gateway
-    name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    entrypoint: bash
-    args:
-      - -c
-      - |
-        set -e
-        echo "Discovering backend service URLs..."
-        AUTH_URL=$$(gcloud run services describe prodigee-auth --region=${_REGION} --format='value(status.url)')
-        LEARNING_URL=$$(gcloud run services describe prodigee-learning-engine --region=${_REGION} --format='value(status.url)')
-        ANALYTICS_URL=$$(gcloud run services describe prodigee-analytics --region=${_REGION} --format='value(status.url)')
-        ARVR_URL=$$(gcloud run services describe prodigee-ar-vr --region=${_REGION} --format='value(status.url)')
-        echo "Auth: $${AUTH_URL}"
-        echo "Learning: $${LEARNING_URL}"
-        echo "Analytics: $${ANALYTICS_URL}"
-        echo "AR/VR: $${ARVR_URL}"
-        gcloud run deploy prodigee-gateway \
-          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:$COMMIT_SHA \
-          --region=${_REGION} \
-          --platform=managed \
-          --allow-unauthenticated \
-          --memory=256Mi \
-          --cpu=1 \
-          --min-instances=0 \
-          --max-instances=10 \
-          --set-env-vars="GATEWAY_ENVIRONMENT=production,GATEWAY_AUTH_SERVICE_URL=$${AUTH_URL},GATEWAY_LEARNING_SERVICE_URL=$${LEARNING_URL},GATEWAY_ANALYTICS_SERVICE_URL=$${ANALYTICS_URL},GATEWAY_AR_VR_SERVICE_URL=$${ARVR_URL}"
-    waitFor: [deploy-auth, deploy-learning-engine, deploy-analytics, deploy-ar-vr]
 
   - id: deploy-auth
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
@@ -209,6 +181,35 @@ steps:
       - --max-instances=3
       - --set-env-vars=ARVR_ENVIRONMENT=production
     waitFor: [push-images]
+
+  # Gateway deploys AFTER backends so it can discover their Cloud Run URLs
+  - id: deploy-gateway
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -e
+        echo "Discovering backend service URLs..."
+        AUTH_URL=$$(gcloud run services describe prodigee-auth --region=${_REGION} --format='value(status.url)')
+        LEARNING_URL=$$(gcloud run services describe prodigee-learning-engine --region=${_REGION} --format='value(status.url)')
+        ANALYTICS_URL=$$(gcloud run services describe prodigee-analytics --region=${_REGION} --format='value(status.url)')
+        ARVR_URL=$$(gcloud run services describe prodigee-ar-vr --region=${_REGION} --format='value(status.url)')
+        echo "Auth: $${AUTH_URL}"
+        echo "Learning: $${LEARNING_URL}"
+        echo "Analytics: $${ANALYTICS_URL}"
+        echo "AR/VR: $${ARVR_URL}"
+        gcloud run deploy prodigee-gateway \
+          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:$COMMIT_SHA \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=256Mi \
+          --cpu=1 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --set-env-vars="GATEWAY_ENVIRONMENT=production,GATEWAY_AUTH_SERVICE_URL=$${AUTH_URL},GATEWAY_LEARNING_SERVICE_URL=$${LEARNING_URL},GATEWAY_ANALYTICS_SERVICE_URL=$${ANALYTICS_URL},GATEWAY_AR_VR_SERVICE_URL=$${ARVR_URL}"
+    waitFor: [deploy-auth, deploy-learning-engine, deploy-analytics, deploy-ar-vr]
 
 options:
   logging: CLOUD_LOGGING_ONLY

@@ -1,0 +1,24 @@
+# Ignore legacy/reference folders — not needed for Cloud Build
+eg-android-app/
+eg-backend-code/
+eg-curriculum/
+eg-frontend-win-mac/
+eg-institute/
+eg-vr-classroom/
+library-backend-data/
+library-indexer/
+_archive/
+
+# Ignore development/local files
+clients/
+tests/
+shared/
+.git/
+.env
+.env.*
+!.env.example
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
