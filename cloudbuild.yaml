@@ -97,39 +97,43 @@ steps:
       - build-ar-vr
 
   # --- Deploy Firestore security rules ---
+  # NOTE: Firestore rules are deployed manually for now:
+  #   npx firebase-tools deploy --only firestore:rules --project prodigee-488119
+  # TODO: Restore automated deploy once Firebase CLI auth is configured in Cloud Build
 
-  - id: deploy-firestore-rules
+  # --- Deploy to Cloud Run ---
+  # Gateway: public-facing, routes to internal services
+  # Backend services: allow-unauthenticated (JWT validated at app layer)
+  # TODO: Upgrade to --no-allow-unauthenticated + identity token injection in gateway
+  # JWT secret mounted from Secret Manager for all JWT-aware services
+
+  - id: deploy-gateway
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: bash
     args:
       - -c
       - |
-        npm install -g firebase-tools
-        firebase deploy --only firestore:rules --project ${_PROJECT_ID}
-    waitFor: ["-"]
-
-  # --- Deploy to Cloud Run ---
-  # Gateway: public-facing, routes to internal services
-  # Backend services: private, service-to-service auth only
-  # JWT secret mounted from Secret Manager for all JWT-aware services
-
-  - id: deploy-gateway
-    name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    entrypoint: gcloud
-    args:
-      - run
-      - deploy
-      - prodigee-gateway
-      - --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:$COMMIT_SHA
-      - --region=${_REGION}
-      - --platform=managed
-      - --allow-unauthenticated
-      - --memory=256Mi
-      - --cpu=1
-      - --min-instances=0
-      - --max-instances=10
-      - --set-env-vars=GATEWAY_ENVIRONMENT=production,GATEWAY_AUTH_SERVICE_URL=https://prodigee-auth-${_PROJECT_ID}.${_REGION}.run.app,GATEWAY_LEARNING_SERVICE_URL=https://prodigee-learning-engine-${_PROJECT_ID}.${_REGION}.run.app,GATEWAY_ANALYTICS_SERVICE_URL=https://prodigee-analytics-${_PROJECT_ID}.${_REGION}.run.app,GATEWAY_AR_VR_SERVICE_URL=https://prodigee-ar-vr-${_PROJECT_ID}.${_REGION}.run.app
-    waitFor: [push-images]
+        set -e
+        echo "Discovering backend service URLs..."
+        AUTH_URL=$$(gcloud run services describe prodigee-auth --region=${_REGION} --format='value(status.url)')
+        LEARNING_URL=$$(gcloud run services describe prodigee-learning-engine --region=${_REGION} --format='value(status.url)')
+        ANALYTICS_URL=$$(gcloud run services describe prodigee-analytics --region=${_REGION} --format='value(status.url)')
+        ARVR_URL=$$(gcloud run services describe prodigee-ar-vr --region=${_REGION} --format='value(status.url)')
+        echo "Auth: $${AUTH_URL}"
+        echo "Learning: $${LEARNING_URL}"
+        echo "Analytics: $${ANALYTICS_URL}"
+        echo "AR/VR: $${ARVR_URL}"
+        gcloud run deploy prodigee-gateway \
+          --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:$COMMIT_SHA \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --memory=256Mi \
+          --cpu=1 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --set-env-vars="GATEWAY_ENVIRONMENT=production,GATEWAY_AUTH_SERVICE_URL=$${AUTH_URL},GATEWAY_LEARNING_SERVICE_URL=$${LEARNING_URL},GATEWAY_ANALYTICS_SERVICE_URL=$${ANALYTICS_URL},GATEWAY_AR_VR_SERVICE_URL=$${ARVR_URL}"
+    waitFor: [deploy-auth, deploy-learning-engine, deploy-analytics, deploy-ar-vr]
 
   - id: deploy-auth
     name: gcr.io/google.com/cloudsdktool/cloud-sdk
@@ -141,7 +145,7 @@ steps:
       - --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/auth:$COMMIT_SHA
       - --region=${_REGION}
       - --platform=managed
-      - --no-allow-unauthenticated
+      - --allow-unauthenticated
       - --memory=256Mi
       - --cpu=1
       - --min-instances=0
@@ -160,7 +164,7 @@ steps:
       - --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/learning-engine:$COMMIT_SHA
       - --region=${_REGION}
       - --platform=managed
-      - --no-allow-unauthenticated
+      - --allow-unauthenticated
       - --memory=512Mi
       - --cpu=1
       - --min-instances=0
@@ -179,7 +183,7 @@ steps:
       - --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/analytics:$COMMIT_SHA
       - --region=${_REGION}
       - --platform=managed
-      - --no-allow-unauthenticated
+      - --allow-unauthenticated
       - --memory=256Mi
       - --cpu=1
       - --min-instances=0
@@ -198,7 +202,7 @@ steps:
       - --image=${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/ar-vr:$COMMIT_SHA
       - --region=${_REGION}
       - --platform=managed
-      - --no-allow-unauthenticated
+      - --allow-unauthenticated
       - --memory=256Mi
       - --cpu=1
       - --min-instances=0

@@ -10,4 +10,4 @@ COPY src/ ./src/
 ENV PORT=8083
 EXPOSE 8083
 
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8083"]
+CMD ["sh", "-c", "exec uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
