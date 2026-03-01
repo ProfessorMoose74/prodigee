@@ -79,6 +79,7 @@ steps:
     args:
       - -c
       - |
+        set -ex
         docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:$COMMIT_SHA
         docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/gateway:latest
         docker push ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/auth:$COMMIT_SHA
@@ -212,4 +213,4 @@ steps:
     waitFor: [deploy-auth, deploy-learning-engine, deploy-analytics, deploy-ar-vr]
 
 options:
-  logging: CLOUD_LOGGING_ONLY
+  logging: GCS_ONLY
